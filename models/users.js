@@ -1,4 +1,4 @@
-const db = ("../dbConfig.js");
+const db = ("../database/dbConfig.js");
 
 module.exports = {
 	register,
