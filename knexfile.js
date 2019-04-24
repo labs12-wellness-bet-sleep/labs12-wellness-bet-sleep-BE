@@ -1,12 +1,20 @@
 // Update with your config settings.
-// require('dotenv').config()
+require('dotenv').config()
 // const pg = require('pg')
 // pg.defaults.ssl = true
+
+const localPg = {
+  host: process.env.DATABASE_HOST,
+  database: process.env.DATABASE,
+  user: process.env.DATABASE_USER,
+  password: process.env.DATABASE_PASSWORD,
+};
+const productionDbConnection = process.env.DATABASE_URL || localPg;
 
 module.exports = {
   development: {
     client: 'pg',
-    connection:'postgres://localhost/sleepbetdb',
+    connection:'postgres://postgres:toottaattoo8@localhost/sleepbetdb',
     migrations: {
       directory: './database/migrations'
     },
@@ -30,13 +38,12 @@ module.exports = {
 
   production: {
     client: 'pg',
-    connection: process.env.DATABASE_URL,
+    connection: productionDbConnection,
     migrations: {
-      directory: './database/migrations'
+      directory: './database/migrations',
     },
     seeds: {
-      directory: './database/seeds'
+      directory: './database/seeds',
     },
-    useNullAsDefault: true
-  }
+  },
 }
