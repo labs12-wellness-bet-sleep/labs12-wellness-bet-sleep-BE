@@ -1,45 +1,50 @@
 // Update with your config settings.
+require('dotenv').config()
+// const pg = require('pg')
+// pg.defaults.ssl = true
+
+const localPg = {
+  host: 'localhost',
+  database: 'sleep',
+  user: 'postgres',
+  password: process.env.DATABASE_PASSWORD,
+};
+// console.log(process.env.DATABASE_PASSWORD)
+const productionDbConnection = process.env.DATABASE_URL || localPg;
 
 module.exports = {
-
   development: {
-    client: 'sqlite3',
-    useNullAsDefault: true,
-    connection: {
-      filename: './dev.sqlite3'
-    }
+    client: 'pg',
+    connection: productionDbConnection,
+    migrations: {
+      directory: './database/migrations'
+    },
+    seeds: {
+      directory: './database/seeds'
+    },
+    useNullAsDefault: true
   },
 
-  staging: {
-    client: 'postgresql',
-    connection: {
-      database: 'my_db',
-      user:     'username',
-      password: 'password'
-    },
-    pool: {
-      min: 2,
-      max: 10
-    },
+  test: {
+    client: 'pg',
+    connection:`postgres://postgres:${process.env.DATABASE_PASSWORD}@localhost/wellness-bet-sleep`,
     migrations: {
-      tableName: 'knex_migrations'
-    }
+      directory: './database/migrations'
+    },
+    seeds: {
+      directory: './database/seeds'
+    },
+    useNullAsDefault: true
   },
 
   production: {
-    client: 'postgresql',
-    connection: {
-      database: 'my_db',
-      user:     'username',
-      password: 'password'
-    },
-    pool: {
-      min: 2,
-      max: 10
-    },
+    client: 'pg',
+    connection: productionDbConnection,
     migrations: {
-      tableName: 'knex_migrations'
-    }
-  }
-
-};
+      directory: './database/migrations',
+    },
+    seeds: {
+      directory: './database/seeds',
+    },
+  },
+}
