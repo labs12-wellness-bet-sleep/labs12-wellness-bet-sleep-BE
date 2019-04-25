@@ -3,10 +3,9 @@ const cors = require('cors');
 const helmet = require('helmet');
 const app = express();
 
-const db = require('./database/dbConfig')
+const db = require('./database/dbConfig');
 
-
-
+const usersRouter = require('./controllers/index.js');
 
 
 app.use(express.json());
@@ -18,7 +17,7 @@ app.get('/', (req, res,) => {
     res.send(`sanity check success`)
 });
 
-
+app.use('/api/users', usersRouter);
 
 
 module.exports = app;
