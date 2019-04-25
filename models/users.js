@@ -31,7 +31,7 @@ function find() {
   };
 
   function findById(id) {
-	return userdb("users")
+	return db("users")
 	  .where({ id })
 	  .select("id", "username", "password", "photoUrl", "email", "role")
 	  .first();
