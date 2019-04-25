@@ -1,5 +1,5 @@
 require('dotenv');
-const server = require('./server/app.js');
+const server = require('./app.js');
 
 
 
