@@ -14,7 +14,7 @@ const productionDbConnection = process.env.DATABASE_URL || localPg;
 module.exports = {
   development: {
     client: 'pg',
-    connection:'postgres://postgres:toottaattoo8@localhost/sleepbetdb',
+    connection: process.env.DATABASE_URL,
     migrations: {
       directory: './database/migrations'
     },
@@ -26,7 +26,7 @@ module.exports = {
 
   test: {
     client: 'pg',
-    connection:'postgres://localhost/sleepbetdb_test',
+    connection:`postgres://postgres:${process.env.DATABASE_PASSWORD}@localhost/sleepbetdb_test`,
     migrations: {
       directory: './database/migrations'
     },
