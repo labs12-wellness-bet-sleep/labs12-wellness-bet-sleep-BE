@@ -7,8 +7,6 @@ const db = require('./database/dbConfig')
 
 
 
-
-
 app.use(express.json());
 app.use(cors());
 app.use(helmet());
@@ -21,9 +19,7 @@ app.get('/', (req, res,) => {
 
 
 
+
+
 module.exports = app;
 
-// DATABASE_HOST = localhost
-// DATABASE = postgres
-// DATABASE_USER = postgres
-// DATABASE_PASSWORD = lambdalabs

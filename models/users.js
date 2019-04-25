@@ -2,7 +2,8 @@ const db = ("../database/dbConfig.js");
 
 module.exports = {
 	register,
-	login
+	login,
+	getAllUsers
 }
 
 function register(user) {
@@ -11,4 +12,8 @@ function register(user) {
 
 function login(user) {
 	return db("users").get(user);
+}
+
+function getAllUsers() {
+	return db("users_table")
 }
