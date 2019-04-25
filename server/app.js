@@ -16,6 +16,9 @@ app.use(cors());
 app.use(helmet());
 
 app.use(registerRoute);
+app.get('/', (req, res,) => {
+    res.send(`sanity check success`)
+});
 
 
 module.exports = app;
