@@ -3,10 +3,10 @@ exports.up = function(knex, Promise) {
     usersTbl.increments();
 
     usersTbl
-      .string("username", 50)
+      .string("username")
       .notNullable()
       .unique();
-    usersTbl.string("password", 50).notNullable();
+    usersTbl.string("password").notNullable();
     usersTbl.string("photoUrl");
     usersTbl
       .string("email")

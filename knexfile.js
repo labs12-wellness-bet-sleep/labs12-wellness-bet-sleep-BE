@@ -9,7 +9,7 @@ const localPg = {
   user: 'postgres',
   password: process.env.DATABASE_PASSWORD,
 };
-console.log(process.env.DATABASE_PASSWORD)
+// console.log(process.env.DATABASE_PASSWORD)
 const productionDbConnection = process.env.DATABASE_URL || localPg;
 
 module.exports = {
