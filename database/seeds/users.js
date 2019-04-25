@@ -14,8 +14,8 @@ exports.seed = function(knex, Promise) {
         email: faker.internet.email()
       })
     }
+    return users;
 
-    return users
   }
   return knex('users').truncate()
     .then(function () {

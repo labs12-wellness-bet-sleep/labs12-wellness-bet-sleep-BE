@@ -3,10 +3,16 @@
   "description": "",
   "version": "1.0.0",
   "main": "index.js",
+  "engines": {
+    "node": "10.15.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "nodemon index.js"
+    "server": "nodemon index.js",
+    "start": "node index.js"
+    
   },
+  
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
