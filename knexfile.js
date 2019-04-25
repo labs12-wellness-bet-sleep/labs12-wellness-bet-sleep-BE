@@ -4,17 +4,18 @@ require('dotenv').config()
 // pg.defaults.ssl = true
 
 const localPg = {
-  host: process.env.DATABASE_HOST,
-  database: process.env.DATABASE,
-  user: process.env.DATABASE_USER,
+  host: 'localhost',
+  database: 'sleep',
+  user: 'postgres',
   password: process.env.DATABASE_PASSWORD,
 };
+console.log(process.env.DATABASE_PASSWORD)
 const productionDbConnection = process.env.DATABASE_URL || localPg;
 
 module.exports = {
   development: {
     client: 'pg',
-    connection: process.env.DATABASE_URL,
+    connection: productionDbConnection,
     migrations: {
       directory: './database/migrations'
     },
@@ -26,7 +27,7 @@ module.exports = {
 
   test: {
     client: 'pg',
-    connection:`postgres://postgres:${process.env.DATABASE_PASSWORD}@localhost/sleepbetdb_test`,
+    connection:`postgres://postgres:${process.env.DATABASE_PASSWORD}@localhost/wellness-bet-sleep`,
     migrations: {
       directory: './database/migrations'
     },
