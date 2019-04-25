@@ -1,5 +1,4 @@
-const db = require('../database/dbConfig.js');
-
+const db = require("../database/dbConfig.js");
 
 module.exports = {
 	register,
@@ -8,12 +7,16 @@ module.exports = {
 	findById
 }
 
-function register(user) {
-	return db("users").insert(user);
+async function register(user) {
+	const [id] = await db("users")
+	.insert(user)
+	.returning("id");
+
+	return findById(id);;
 }
 
 function login(user) {
-	return db("users").get(user);
+	return db("users").where("users");
 }
 
 function find() {
