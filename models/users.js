@@ -16,7 +16,7 @@ async function register(user) {
 }
 
 function login(user) {
-	return db("users").where({username: user});
+	return db("users").where(user);
 }
 
 function find() {
