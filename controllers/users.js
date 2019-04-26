@@ -10,7 +10,7 @@ exports.postUser = async (req, res) => {
     let newUser  = req.body;
 
     const hash = bcrypt.hashSync(newUser.password);
-    user.password = hash;
+    newUser.password = hash;
     
     console.log(user.password)
 
