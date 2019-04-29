@@ -7,7 +7,8 @@ module.exports = {
 }
 
 async function addGroup(group) {
-    return db("group").insert(group);
+    const [id] = await db("group").insert(group).returning("id");
+    return findGroupById(id);
 }
 
 function findGroup(){
