@@ -5,8 +5,7 @@ const app = express();
 
 const db = require('./database/dbConfig');
 
-const usersRouter = require('./controllers/index.js');
-const registerLogInRouter = require('./routes/registerRoute.js');
+const usersRouter = require('./controllers/userRoutes.js');
 
 app.use(express.json());
 app.use(cors());
@@ -18,7 +17,6 @@ app.get('/', (req, res,) => {
 });
 
 app.use('/api/users', usersRouter);
-app.use('/auth', registerLogInRouter);
 
 
 module.exports = app;
