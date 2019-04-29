@@ -2,8 +2,8 @@ const db = require('../database/dbConfig.js');
 
 module.exports = {
     addGroup,
-    deleteGroup,
-    findGroupById
+    findGroupById,
+    findGroup
 }
 
 async function addGroup(group) {

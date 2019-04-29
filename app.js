@@ -6,6 +6,8 @@ const app = express();
 const db = require('./database/dbConfig');
 
 const usersRouter = require('./routes/userRoutes.js');
+const groupRouter = require('./routes/groupRoutes.js');
+
 
 app.use(express.json());
 app.use(cors());
@@ -17,7 +19,7 @@ app.get('/', (req, res,) => {
 });
 
 app.use('/api/users', usersRouter);
-
+app.use('/api/groups', groupRouter)
 
 module.exports = app;
 
