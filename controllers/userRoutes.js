@@ -1,6 +1,7 @@
 const usersRouter = require("express").Router();
 const userdb = require("../database/dbConfig.js");
 const Users = require("../models/users.js");
+const bcrypt = require('bcryptjs');
 
 usersRouter.get("/", (req, res) => {
   Users.find()
@@ -32,6 +33,25 @@ usersRouter.get("/:id", async (req, res) => {
         user: {},
         message: "There was an error processing your request."
       });
+    }
+  });
+
+  usersRouter.post("/register", async (req, res) => {
+    try {
+      let newUser = req.body;
+      if(newUser) {
+        const hash = bcrypt.hashSync(newUser.password, 12);
+        newUser.password = hash;
+        const user = await Users.register(newUser);
+        res.status(200).json(user);
+      } else {
+        res.status(404).json({
+          message: "Incomplete registration"
+        });
+      }
+
+    } catch(error) {
+      res.status(500).send(error.message);
     }
   });
 
