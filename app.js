@@ -5,7 +5,7 @@ const app = express();
 
 const db = require('./database/dbConfig');
 
-const usersRouter = require('./controllers/userRoutes.js');
+const usersRouter = require('./routes/userRoutes.js');
 
 app.use(express.json());
 app.use(cors());
