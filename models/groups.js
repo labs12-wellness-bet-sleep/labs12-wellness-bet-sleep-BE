@@ -25,7 +25,6 @@ function findGroupById(id) {
             "buyInAmt",
             "startDate",
             "endDate",
-            "join_code",
             "groupMessage",
             )
             .first();
