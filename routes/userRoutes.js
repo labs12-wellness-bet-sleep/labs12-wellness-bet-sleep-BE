@@ -3,6 +3,8 @@ const userdb = require("../database/dbConfig.js");
 const Users = require("../models/users.js");
 const bcrypt = require('bcryptjs');
 
+const isAuthenticated  = require("../middleware/firebase.js");
+
 usersRouter.get("/", (req, res) => {
   Users.find()
     .then(users => {
@@ -55,7 +57,7 @@ usersRouter.get("/:id", async (req, res) => {
     }
   });
 
-  usersRouter.post("/login", (req, res) => {
+  usersRouter.post("/login", isAuthenticated, (req, res) => {
     let { username, password } = req.body;
     if (username && password ) {
       Users.login({ username })

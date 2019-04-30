@@ -1,25 +1,41 @@
 const firebase = require("../firebase/firebaseConfig.js");
 
 module.exports = {
-    createNewUser,
-    signInExistingUser
+    isAuthenticated
 }
 
+// source: https://www.caffeinecoding.com/leveraging-express-middleware-to-authorize-your-api/
 
-function createNewUser(email,password){
-    firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // ...
-      });
-}
+// https://firebase.google.com/docs/auth/admin/verify-id-tokens
+function isAuthenticated(req, res) {
+    const authHeader = req.headers.authorization;
 
-function signInExistingUser(email, password){
-    firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // ...
-    });
+    if(!authHeader) {
+        return res.status(403).json({
+            status: 403,
+            message: "FORBIDDEN"
+        })
+    } else {
+
+    const token = req.headers.authToken;
+
+    if (token) {
+        firebase.auth().verifyIdToken(token)
+        .then(function(decodedToken){
+            req.user = decodedToken.uid;
+            next();
+        })
+        .catch(function(error){
+            return res.status(500).json({
+                status: 500,
+                message: "This token is incorrect"
+            })
+        })
+    }
+    else {
+        res.redirect('/login');
+    }
+
+    }
+
 }
