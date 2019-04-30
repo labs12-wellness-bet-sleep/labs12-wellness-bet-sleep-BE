@@ -24,9 +24,10 @@ function find() {
 	  "id",
 	  "username",
 	  "password",
-	  "photoUrl",
+	  "profilePhoto",
 	  "email",
-	  "role"
+		"role",
+		"fullName"
 	);
   };
 

@@ -20,6 +20,8 @@ exports.up = function(knex, Promise) {
       .inTable("users")
       .onDelete("CASCADE")
       .onUpdate("CASCADE");
+    partcpntTbl.dropForeign("groupId");
+    partcpntTbl.dropForeign("partUserId");
   });
 };
 

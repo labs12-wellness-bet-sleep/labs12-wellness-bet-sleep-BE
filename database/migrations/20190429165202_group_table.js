@@ -16,6 +16,7 @@ exports.up = function(knex, Promise) {
     groupTbl.text("joinCode");
     groupTbl.text("groupMessage");
     groupTbl.decimal("potTotal");
+    groupTbl.dropForeign("userId");
   });
 };
 
