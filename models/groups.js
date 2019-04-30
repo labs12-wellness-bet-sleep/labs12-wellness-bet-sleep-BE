@@ -12,7 +12,7 @@ async function addGroup(group) {
 }
 
 function findGroup(){
-    return db("group").select("group_name");
+    return db("group").select("groupName");
 }
 
 function findGroupById(id) {
@@ -20,14 +20,13 @@ function findGroupById(id) {
         .where({ id })
         .select(
             "id",
-            "user_id",
-            "group_name",
-            "buy_in_amount",
-            "start_date",
-            "end_date",
+            "userId",
+            "groupName",
+            "buyInAmt",
+            "startDate",
+            "endDate",
             "join_code",
-            "group_message",
-            "pot_total"
+            "groupMessage",
             )
             .first();
 }
