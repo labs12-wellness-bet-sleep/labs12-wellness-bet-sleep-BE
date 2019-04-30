@@ -10,13 +10,14 @@ exports.seed = function(knex, Promise) {
       users.push({
         username: faker.name.findName(),
         password: bcrypt.hashSync('password', 10),
-        photoUrl: faker.image.imageUrl(),
-        email: faker.internet.email()
+        profilePhoto: faker.image.imageUrl(),
+        email: faker.internet.email(),
+        fullName: `${faker.name.firstName()} ${faker.name.lastName()}`
       })
     }
     return users;
   }
-  return knex('users').truncate()
+  return knex('users').del()
     .then(function () {
       // Inserts seed entries
       return knex('users').insert(userSeeds(500));
