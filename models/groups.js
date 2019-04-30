@@ -1,16 +1,29 @@
 const db = require("../database/dbConfig.js");
 
 module.exports = {
-  addGroup,
-  findGroupById,
-  findGroup
-};
+
+    addGroup,
+    findGroupById,
+    findGroup,
+    updateGroup
+}
+
 
 async function addGroup(group) {
   const [id] = await db("group")
     .insert(group)
     .returning("id");
   return findGroupById(id);
+}
+
+
+
+
+
+function updateGroup(id, changes) {
+    return db("group")
+        .where({ id })
+        .update(changes, '*');
 }
 
 function findGroup() {
@@ -40,3 +53,4 @@ function findGroupById(id) {
     )
     .first();
 }
+
