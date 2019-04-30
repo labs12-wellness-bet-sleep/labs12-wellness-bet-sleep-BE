@@ -22,7 +22,7 @@ function isAuthenticated(req, res) {
     if (token) {
         firebase.auth().verifyIdToken(token)
         .then(function(decodedToken){
-            req.user = decodedToken.uid;
+            req.body.token = decodedToken.uid;
             next();
         })
         .catch(function(error){

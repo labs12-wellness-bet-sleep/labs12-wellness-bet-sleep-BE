@@ -38,7 +38,7 @@ usersRouter.get("/:id", async (req, res) => {
     }
   });
 
-  usersRouter.post("/register", async (req, res) => {
+  usersRouter.post("/register", isAuthenticated, async (req, res) => {
     try {
       let newUser = req.body;
       if(newUser) {
