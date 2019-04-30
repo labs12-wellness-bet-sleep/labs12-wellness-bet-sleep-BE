@@ -1,39 +1,47 @@
 const db = require("../database/dbConfig.js");
 
 module.exports = {
-	register,
-	login,
-	find,
-	findById
-}
+  register,
+  login,
+  find,
+  findById
+};
 
 async function register(user) {
-	const [id] = await db("users")
-	.insert(user)
-	.returning("id");
+  const [id] = await db("users")
+    .insert(user)
+    .returning("id");
 
-	return findById(id);;
+  return findById(id);
 }
 
 function login(user) {
-	return db("users").where(user);
+  return db("users").where(user);
 }
 
 function find() {
-	return db("users").select(
-	  "id",
-	  "username",
-	  "password",
-	  "profilePhoto",
-	  "email",
-		"role",
-		"fullName"
-	);
-  };
+  return db("users").select(
+    "id",
+    "username",
+    "password",
+    "profilePhoto",
+    "email",
+    "role",
+    "fullName"
+  );
+}
 
-  function findById(id) {
-	return db("users")
-	  .where({ id })
-	  .select("id", "username", "password", "photoUrl", "email", "role")
-	  .first();
-  }
+function findById(id) {
+  return db("users")
+    .where({ id })
+    .select(
+      "id",
+      "username",
+      "password",
+      "profilePhoto",
+      "email",
+      "role",
+      "fullName"
+    )
+    .first();
+}

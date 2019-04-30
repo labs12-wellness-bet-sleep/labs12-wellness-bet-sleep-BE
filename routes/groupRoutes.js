@@ -28,4 +28,4 @@ groupsRouter.post("/create", async (req, res) => {
 })
 
 
-module.exports = groupRouter;
+module.exports = groupsRouter;
