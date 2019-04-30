@@ -27,5 +27,18 @@ groupsRouter.post("/create", async (req, res) => {
     }
 })
 
+groupsRouter.put("/:id", async (req, res) => {
+    try {
+        const group = await Group.updateGroup(req.params.id, req.body);
+        if(group){
+            res.status(200).json(group);
+        } else {
+            res.status(404).json({message : "Group is not found"});
+        }
+    } catch(error) {
+        res.status(500).json({message: "Error updating the group"})
+    }
+})
+
 
 module.exports = groupRouter;
