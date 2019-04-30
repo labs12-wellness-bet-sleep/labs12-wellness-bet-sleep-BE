@@ -7,12 +7,14 @@ exports.up = function(knex, Promise) {
       .notNullable()
       .unique();
     usersTbl.string("password").notNullable();
-    usersTbl.string("photoUrl");
+    usersTbl.string("profilePhoto");
     usersTbl
       .string("email")
       .notNullable()
       .unique();
-    usersTbl.string("role");
+    usersTbl.boolean("role");
+    usersTbl.string("fullName").notNullable();
+    
   });
 };
 

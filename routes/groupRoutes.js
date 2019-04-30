@@ -41,4 +41,4 @@ groupsRouter.put("/:id", async (req, res) => {
 })
 
 
-module.exports = groupRouter;
+module.exports = groupsRouter;
