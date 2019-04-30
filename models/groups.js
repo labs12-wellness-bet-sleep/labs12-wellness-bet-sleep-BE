@@ -3,7 +3,8 @@ const db = require("../database/dbConfig.js");
 module.exports = {
   addGroup,
   findGroupById,
-  findGroup
+  findGroup,
+  updateGroup
 };
 
 async function addGroup(group) {
@@ -15,13 +16,14 @@ async function addGroup(group) {
 
 function findGroup() {
   return db("group").select(
+    "id",
     "groupName",
     "buyInAmt",
     "startDate",
     "endDate",
     "groupMessage",
     "potTotal"
-  );
+  )
 }
 
 function findGroupById(id) {
@@ -39,4 +41,10 @@ function findGroupById(id) {
       "potTotal"
     )
     .first();
+}
+
+function updateGroup(id, changes) {
+  return db("group")
+      .where({ id })
+      .update(changes, '*');
 }
