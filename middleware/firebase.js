@@ -17,7 +17,7 @@ function isAuthenticated(req, res) {
         })
     } else {
 
-    const token = req.headers.authToken;
+    const token = req.body.authToken;
 
     if (token) {
         firebase.auth().verifyIdToken(token)
@@ -33,7 +33,11 @@ function isAuthenticated(req, res) {
         })
     }
     else {
-        res.redirect('/login');
+        res.status(401).json({
+
+            errorMessage: "You don't have the proper credentials to log in or register."
+      
+        });
     }
 
     }
