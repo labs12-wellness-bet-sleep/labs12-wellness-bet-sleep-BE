@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 
 const isAuthenticated  = require("../middleware/firebase.js");
 
-usersRouter.get("/", (req, res) => {
+usersRouter.get("/", restricted, (req, res) => {
   Users.find()
     .then(users => {
       res.json(users);
@@ -13,7 +13,7 @@ usersRouter.get("/", (req, res) => {
     .catch(error => res.send(error));
 });
 
-usersRouter.get("/:id", async (req, res) => {
+usersRouter.get("/:id", restricted, async (req, res) => {
     try {
       const user = await Users.findById(req.params.id);
       if (user) {

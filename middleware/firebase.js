@@ -43,3 +43,17 @@ function isAuthenticated(req, res) {
     }
 
 }
+
+function restricted (req, res) {
+    const token = req.body.authToken;
+
+    if (token) {
+        next();
+    }
+    else {
+        return res.status(401).json({
+            status: 401,
+            message: "You are not authorized to view this page."
+        })
+    }
+}
