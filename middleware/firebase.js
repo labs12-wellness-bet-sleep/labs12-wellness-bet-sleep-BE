@@ -1,7 +1,8 @@
 const firebase = require("../firebase/firebaseConfig.js");
 
 module.exports = {
-    isAuthenticated
+    isAuthenticated,
+    restricted
 }
 
 // source: https://www.caffeinecoding.com/leveraging-express-middleware-to-authorize-your-api/
