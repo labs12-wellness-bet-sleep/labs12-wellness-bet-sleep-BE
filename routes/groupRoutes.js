@@ -15,6 +15,7 @@ groupsRouter.get("/", (req, res) => {
 groupsRouter.get("/:id", async (req, res) => {
     try {
         const group = await Group.findGroupById(req.params.id);
+        console.log(group)
         if(group) {
             res.status(200).json(group)
         } else {
