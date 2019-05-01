@@ -67,13 +67,13 @@ usersRouter.get("/:id", fb.restricted, async (req, res) => {
       return res.status(400).json("We need the right registration credentials prior to logging in!");
     }
     else{
-      let { username, password } = req.body;
-      if (username && password ) {
-        Users.login({ username })
+      let { email, password } = req.body;
+      if (email && password ) {
+        Users.login({ email })
         .first()
         .then(user => {
         if (user && bcrypt.compareSync(password, user.password)) {
-          res.status(200).json({ message: `Welcome ${user.username}!` });
+          res.status(200).json({ message: `Welcome ${user.email}!` });
         } else {
           res.status(401).json({ message: 'Invalid Credentials' });
         }
