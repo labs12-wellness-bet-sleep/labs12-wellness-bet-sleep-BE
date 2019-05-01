@@ -3,9 +3,9 @@ const userdb = require("../database/dbConfig.js");
 const Users = require("../models/users.js");
 const bcrypt = require('bcryptjs');
 
-const isAuthenticated  = require("../middleware/firebase.js");
+const fb  = require("../middleware/firebase.js");
 
-usersRouter.get("/", restricted, (req, res) => {
+usersRouter.get("/", fb.restricted, (req, res) => {
   Users.find()
     .then(users => {
       res.json(users);
@@ -13,7 +13,7 @@ usersRouter.get("/", restricted, (req, res) => {
     .catch(error => res.send(error));
 });
 
-usersRouter.get("/:id", restricted, async (req, res) => {
+usersRouter.get("/:id", fb.restricted, async (req, res) => {
     try {
       const user = await Users.findById(req.params.id);
       if (user) {
@@ -38,7 +38,7 @@ usersRouter.get("/:id", restricted, async (req, res) => {
     }
   });
 
-  usersRouter.post("/register", isAuthenticated, async (req, res) => {
+  usersRouter.post("/register", fb.isAuthenticated, async (req, res) => {
     if(!req.body.token) {
       return res.status(400).json("We need the right registration credentials prior to logging in!");
     }
@@ -62,7 +62,7 @@ usersRouter.get("/:id", restricted, async (req, res) => {
     }
   });
 
-  usersRouter.post("/login", isAuthenticated, (req, res) => {
+  usersRouter.post("/login", fb.isAuthenticated, (req, res) => {
     if(!req.body.token) {
       return res.status(400).json("We need the right registration credentials prior to logging in!");
     }
