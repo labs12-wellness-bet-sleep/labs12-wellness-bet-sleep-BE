@@ -5,7 +5,8 @@ module.exports = {
   addGroup,
   findGroupById,
   findGroup,
-  updateGroup
+  updateGroup,
+  delGroup
 };
 
 
@@ -34,7 +35,8 @@ function findGroup() {
     "startDate",
     "endDate",
     "groupMessage",
-    "potTotal"
+    "potTotal",
+    "joinCode"
   )
 }
 
@@ -55,4 +57,8 @@ function findGroupById(id) {
     .first();
 }
 
-
+function delGroup(id) {
+  return db("group")
+    .where({ id })
+    .del();
+}

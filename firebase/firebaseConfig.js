@@ -1,4 +1,5 @@
 var logger = require('morgan');
+
 var fb = require('firebase-admin');
 
 // see https://firebase.google.com/docs/web/setup#config-nodejs-app
@@ -18,3 +19,4 @@ var firebase = fb.initializeApp(firebaseConfig);
 module.exports = firebase;
 
 // module.exports = fb; 
+
