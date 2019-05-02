@@ -7,6 +7,7 @@ const db = require('./database/dbConfig');
 
 const usersRouter = require('./routes/userRoutes.js');
 const groupRouter = require('./routes/groupRoutes.js');
+const participantRouter = require('./routes/participantRoutes.js');
 
 
 app.use(express.json());
@@ -20,6 +21,7 @@ app.get('/', (req, res,) => {
 
 app.use('/api/users', usersRouter);
 app.use('/api/groups', groupRouter)
+app.use('/api/participant', participantRouter);
 
 module.exports = app;
 

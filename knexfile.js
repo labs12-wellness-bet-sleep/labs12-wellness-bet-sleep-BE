@@ -12,6 +12,8 @@ const localPg = {
 // console.log(process.env.DATABASE_PASSWORD)
 const productionDbConnection = process.env.DATABASE_URL || localPg;
 
+// process.env.DATABASE_URL
+
 module.exports = {
   development: {
     client: 'pg',
