@@ -1,6 +1,7 @@
 const groupsRouter = require("express").Router();
 const Group = require("../models/groups.js");
 const userdb = require("../database/dbConfig.js");
+const Participant = require("../models/participants.js");
 
 groupsRouter.get("/", (req, res) => {
     Group.findGroup()
@@ -15,7 +16,6 @@ groupsRouter.get("/", (req, res) => {
 groupsRouter.get("/:id", async (req, res) => {
     try {
         const group = await Group.findGroupById(req.params.id);
-        console.log(group)
         if(group) {
             res.status(200).json(group)
         } else {
@@ -24,6 +24,25 @@ groupsRouter.get("/:id", async (req, res) => {
     } catch(error){
         res.status(500).send(error.message);
     }
+});
+
+groupsRouter.get("/:id/participant", async (req, res) => {
+    try {   
+        let {id} = req.params;
+       
+        if(id){
+           const group = await Group.findGroupById(id);
+
+           const participant = await Participant.findParticipantsByGroup(id)
+           res.status(200).json({...group, participant});
+        } else {
+            res.status(400).json({message:`Group with id:${id} does not exist `})
+        }
+        
+  
+} catch (error) {
+    res.status(500).send(error.message);
+}
 });
 
 groupsRouter.post("/create", async (req, res) => {
