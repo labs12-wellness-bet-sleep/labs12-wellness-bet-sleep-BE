@@ -11,6 +11,10 @@ var firebaseConfig = {
     messagingSenderId: process.env.messagingSenderId,
 }
 
+// fb.initializeApp();
+
 var firebase = fb.initializeApp(firebaseConfig);
 
 module.exports = firebase;
+
+// module.exports = fb; 

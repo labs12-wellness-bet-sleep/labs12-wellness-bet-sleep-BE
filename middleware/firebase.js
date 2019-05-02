@@ -8,7 +8,7 @@ module.exports = {
 // source: https://www.caffeinecoding.com/leveraging-express-middleware-to-authorize-your-api/
 
 // https://firebase.google.com/docs/auth/admin/verify-id-tokens
-function isAuthenticated(req, res) {
+function isAuthenticated(req, res, next) {
     const authHeader = req.headers.authorization;
 
     if(!authHeader) {
@@ -17,30 +17,19 @@ function isAuthenticated(req, res) {
             message: "FORBIDDEN"
         })
     } else {
-
-    const token = req.body.authToken;
-
-    if (token) {
-        firebase.auth().verifyIdToken(token)
+        firebase.auth().verifyIdToken(authHeader)
         .then(function(decodedToken){
+            console.log(decodedToken);
             req.body.token = decodedToken.uid;
             next();
         })
         .catch(function(error){
+            console.log(error);
             return res.status(500).json({
                 status: 500,
                 message: "This token is incorrect"
             })
         })
-    }
-    else {
-        res.status(401).json({
-
-            errorMessage: "You don't have the proper credentials to log in or register."
-      
-        });
-    }
-
     }
 
 }
