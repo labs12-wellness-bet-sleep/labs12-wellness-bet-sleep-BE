@@ -4,7 +4,16 @@ module.exports = {
     findParticipantsByGroup,
     participantByiD,
     delParticipant,
-    findParticipant
+    findParticipant,
+    addParticipant
+}
+
+
+async  function addParticipant(participant){
+    const [id] = await db("participant")
+                  .insert(participant)
+                  .returning("id")
+    return participantByiD(id)
 }
 
 function findParticipantsByGroup(id) {

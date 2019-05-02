@@ -34,6 +34,22 @@ participantRouter.get("/:id/participant", async (req, res) => {
     }
 })
 
+participantRouter.post("/add", async (req, res) => {
+    try {
+        const newParticipant = req.body;
+        console.log(newParticipant)
+        if(newParticipant) {
+            const participant = await Participant.addParticipant(newParticipant)
+            res.status(200).json(participant)
+        } else {
+            res.status(400).json({message: "Must enter all input fields"})
+        }
+        
+    } catch(error) {
+        res.status(500).send(error.message);
+    }
+})
+
 participantRouter.delete("/:id", async (req, res) => {
     try {
         const {id} = req.params;
