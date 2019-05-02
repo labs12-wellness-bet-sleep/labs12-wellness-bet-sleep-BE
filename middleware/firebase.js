@@ -1,8 +1,7 @@
 const firebase = require("../firebase/firebaseConfig.js");
 
 module.exports = {
-    isAuthenticated,
-    restricted
+    isAuthenticated
 }
 
 // source: https://www.caffeinecoding.com/leveraging-express-middleware-to-authorize-your-api/
@@ -34,16 +33,3 @@ function isAuthenticated(req, res, next) {
 
 }
 
-function restricted (req, res) {
-    const token = req.body.authToken;
-
-    if (token) {
-        next();
-    }
-    else {
-        return res.status(401).json({
-            status: 401,
-            message: "You are not authorized to view this page."
-        })
-    }
-}
