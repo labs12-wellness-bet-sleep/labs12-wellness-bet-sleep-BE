@@ -16,6 +16,7 @@ app.use(helmet());
 
 //app working!
 app.get('/', (req, res,) => {
+    console.log("app is working");
     res.send(`sanity check success`)
 });
 
