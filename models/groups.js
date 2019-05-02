@@ -62,5 +62,3 @@ function delGroup(id) {
     .where({ id })
     .del();
 }
-
-
