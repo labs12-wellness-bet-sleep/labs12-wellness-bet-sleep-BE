@@ -1,16 +1,13 @@
 const db = require("../database/dbConfig.js");
 
 module.exports = {
-
   addGroup,
   findGroupById,
   findGroup,
   updateGroup,
   delGroup,
-  findParticipantsByGroup
-  
+  getGroupsByUser
 };
-
 
 async function addGroup(group) {
   const [id] = await db("group")
@@ -19,14 +16,10 @@ async function addGroup(group) {
   return findGroupById(id);
 }
 
-
-
-
-
 function updateGroup(id, changes) {
-    return db("group")
-        .where({ id })
-        .update(changes, '*');
+  return db("group")
+    .where({ id })
+    .update(changes, "*");
 }
 
 function findGroup() {
@@ -39,7 +32,7 @@ function findGroup() {
     "groupMessage",
     "potTotal",
     "joinCode"
-  )
+  );
 }
 
 function findGroupById(id) {
@@ -65,15 +58,8 @@ function delGroup(id) {
     .del();
 }
 
-
-
-function findParticipantsByGroup(id) {
-
-
-  return db.select("users.username","users.profilePhoto","participant.venmoPhoto")
-           .from("participant")
-           .innerJoin("users", "participant.partUserId", "=", "users.id")
-           .where({ groupId: id})
-                      
+function getGroupsByUser(id) {
+  return db('group').where({ userId: id })
 }
 
+// .select('groupName')
