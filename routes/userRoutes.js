@@ -1,7 +1,6 @@
 const usersRouter = require("express").Router();
 const userdb = require("../database/dbConfig.js");
 const Users = require("../models/users.js");
-const bcrypt = require("bcryptjs");
 
 const Groups = require('../models/groups.js');
 
@@ -50,8 +49,6 @@ usersRouter.post("/register", fb.isAuthenticated, async (req, res) => {
     try {
       let newUser = req.body;
       if (newUser) {
-        const hash = bcrypt.hashSync(newUser.password, 12);
-        newUser.password = hash;
         const user = await Users.register(newUser);
         res.status(200).json(user);
       } else {
@@ -72,22 +69,18 @@ usersRouter.post("/login", fb.isAuthenticated, (req, res) => {
       .status(400)
       .json("We need the right registration credentials prior to logging in!");
   } else {
-    let { email, password } = req.body;
-    if (email && password) {
+    let email = req.body.email;
+    if (email) {
       Users.login({ email })
         .first()
-        .then(user => {
-          if (user && bcrypt.compareSync(password, user.password)) {
+        .then(() => {
             res.status(200).json({ message: `Welcome ${user.fullName}!` });
-          } else {
-            res.status(401).json({ message: "Invalid Credentials" });
-          }
         })
         .catch(error => {
           res.status(500).json(error);
         });
     } else {
-      res.status(401).json({ message: "Invalid username or password" });
+      res.status(401).json({ message: "Invalid email provided." });
     }
   }
 });
