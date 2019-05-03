@@ -6,7 +6,9 @@ module.exports = {
   findGroupById,
   findGroup,
   updateGroup,
-  delGroup
+  delGroup,
+  findParticipantsByGroup
+  
 };
 
 
@@ -62,3 +64,18 @@ function delGroup(id) {
     .where({ id })
     .del();
 }
+
+
+
+function findParticipantsByGroup(id) {
+
+  // return db("participant")
+  //          .where({ groupId : id })
+  //          .innerJoin("users","participant.partUserId","=","users.id")
+  return db.select("users.username","users.profilePhoto","participant.venmoPhoto")
+           .from("participant")
+           .innerJoin("users", "participant.partUserId", "=", "users.id")
+           .where({ groupId: id})
+                      
+}
+

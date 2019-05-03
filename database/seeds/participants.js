@@ -31,7 +31,7 @@ exports.seed = function(knex, Promise) {
         {
           groupId: 3,
           venmoPhoto: faker.image.imageUrl(),
-          partUserId: 1
+          partUserId: 5
         }
       ]);
     });

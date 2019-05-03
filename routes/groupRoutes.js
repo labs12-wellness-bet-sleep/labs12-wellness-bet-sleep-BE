@@ -32,8 +32,9 @@ groupsRouter.get("/:id/participant", async (req, res) => {
        
         if(id){
            const group = await Group.findGroupById(id);
-
-           const participant = await Participant.findParticipantsByGroup(id)
+           console.log("group", group)
+           const participant = await Group.findParticipantsByGroup(id)
+           console.log("participant", participant)
            res.status(200).json({...group, participant});
         } else {
             res.status(400).json({message:`Group with id:${id} does not exist `})
