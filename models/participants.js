@@ -29,14 +29,11 @@ function findParticipant() {
 
 function participantByiD(id) {
     return db("participant")
-          .where({partUserId:id})
+          .where({id})
           .select("participant.id",
                   "venmoPhoto",
                   "groupId",
-                  "partUserId",
-                  "users.username",
-                  "users.id")
-                  .innerJoin("users", "participant.partUserId", "=", "users.id")
+                  "partUserId",)
                   .first()
 
 
@@ -57,7 +54,12 @@ function showGroupsforParticipant(id) {
                      "group.groupMessage",
                      "group.potTotal")
                      .from("group")
-                     .innerJoin("participant", "participant.partUserId", "=", "group.userId")
-                     .where({partUserId: id})
+                     .innerJoin("participant", "participant.groupId", "=", "group.id")
+                     .where({"participant.id": id})
+
+                    //  return db.select("group.groupName", "group.userId", "group.id")
+                    //  .from("group")
+                    //  .innerJoin("participant", "participant.groupId", "=", "group.id")
+                    //  .where({"participant.id": id})
                 
 }
