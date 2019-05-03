@@ -13,21 +13,40 @@ participantRouter.get("/", (req, res) => {
     });
 });
 
-participantRouter.get("/:id/participant", async (req, res) => {
-  try {
-    let { id } = req.params;
-    // console.log(id)
-    if (id) {
-      const group = await Groups.findGroupById(id);
-      //    console.log(group)
-      const participant = await Participant.findParticipantsByGroup(id);
-      res.status(200).json({ ...group, participant });
-    } else {
-      res.status(400).json({ message: `Group with id:${id} does not exist ` });
+
+participantRouter.get("/:id", async (req, res) => {
+    try {
+        const {id} = req.params;
+        if(id){
+            const participant = await Participant.participantByiD(id)
+            res.status(200).json(participant)
+        } else {
+            res.status(400).json({message: "No participant with that id"})
+        }
+    } catch(error) {
+        res.status(500).json(error.message)
     }
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
+})
+
+participantRouter.get("/:id/groups", async (req, res) => {
+    try {   
+            const {id} = req.params;
+            if(id){
+                console.log("id", id)
+               const participant = await Participant.participantByiD(id);
+            //    console.log("groups", groups)
+               const groups = await Participant.showGroupsforParticipant(id)
+               console.log("participant", participant)
+               res.status(200).json({...participant, groups});
+            } else {
+                res.status(400).json({message:`Group with id:${id} does not exist `})
+            }
+            
+      
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+ 
 });
 
 participantRouter.post("/add", async (req, res) => {
@@ -60,21 +79,6 @@ participantRouter.delete("/:id", async (req, res) => {
 });
 
 
-// participantRouter.get('/:id/groups', async (req, res) => {
-//     const { id } = req.params;
-
-//     try {
-//         const groups = await Groups.findGroupById(id);
-//         const participant = await Participant.participantByiD(id);
-//         if(participant) {
-//             res.status(200).json({ groups, ...participant });            
-//         } else {
-//             res.status(404).json({ message: 'Participant not found'});
-//         }
-//     } catch (error) {
-//         res.status(500).json(error);
-//     }
-// });
 
 
 
