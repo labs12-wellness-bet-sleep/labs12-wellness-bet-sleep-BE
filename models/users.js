@@ -4,7 +4,8 @@ module.exports = {
   register,
   login,
   find,
-  findById
+  findById,
+  updateUser
 };
 
 async function register(user) {
@@ -44,4 +45,10 @@ function findById(id) {
       "fullName"
     )
     .first();
+}
+
+function updateUser(id, changes) {
+  return db("users")
+      .where({ id })
+      .update(changes, '*');
 }

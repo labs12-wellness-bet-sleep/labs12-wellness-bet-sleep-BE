@@ -57,9 +57,6 @@ function showGroupsforParticipant(id) {
                      .innerJoin("participant", "participant.groupId", "=", "group.id")
                      .where({"participant.id": id})
 
-                    //  return db.select("group.groupName", "group.userId", "group.id")
-                    //  .from("group")
-                    //  .innerJoin("participant", "participant.groupId", "=", "group.id")
-                    //  .where({"participant.id": id})
+                   
                 
 }

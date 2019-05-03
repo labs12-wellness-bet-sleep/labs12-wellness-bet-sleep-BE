@@ -87,6 +87,20 @@ usersRouter.get("/:id", fb.isAuthenticated, async (req, res) => {
     }
   })
 
+  usersRouter.put("/:id", async (req, res) => {
+    try {
+        const user = await Users.updateGroup(req.params.id, req.body);
+        if(user){
+            res.status(200).json(user);
+        } else {
+            res.status(404).json({message : "User is not found"});
+        }
+    } catch(error) {
+        res.status(500).json({message: "Error updating the group"});
+    }
+});
+
+
  
 
 module.exports = usersRouter
