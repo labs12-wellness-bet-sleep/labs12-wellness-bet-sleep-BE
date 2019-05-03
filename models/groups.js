@@ -5,7 +5,8 @@ module.exports = {
   findGroupById,
   findGroup,
   updateGroup,
-  delGroup
+  delGroup,
+  getGroupsByUser
 };
 
 async function addGroup(group) {
@@ -56,3 +57,9 @@ function delGroup(id) {
     .where({ id })
     .del();
 }
+
+function getGroupsByUser(id) {
+  return db('group').where({ userId: id })
+}
+
+// .select('groupName')

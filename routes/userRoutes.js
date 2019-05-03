@@ -3,6 +3,8 @@ const userdb = require("../database/dbConfig.js");
 const Users = require("../models/users.js");
 const bcrypt = require("bcryptjs");
 
+const Groups = require('../models/groups.js');
+
 const fb = require("../middleware/firebase.js");
 // fb.isAuthenticated
 
@@ -40,11 +42,11 @@ usersRouter.get("/:id", async (req, res) => {
 });
 
 usersRouter.post("/register", async (req, res) => {
-  if (!req.body.token) {
-    return res
-      .status(400)
-      .json("We need the right registration credentials prior to logging in!");
-  } else {
+  // if (!req.body.token) {
+  //   return res
+  //     .status(400)
+  //     .json("We need the right registration credentials prior to logging in!");
+  // } else {
     try {
       let newUser = req.body;
       if (newUser) {
@@ -60,7 +62,7 @@ usersRouter.post("/register", async (req, res) => {
     } catch (error) {
       res.status(500).send(error.message);
     }
-  }
+  // }
 });
 
 usersRouter.post("/login", (req, res) => {
@@ -86,6 +88,22 @@ usersRouter.post("/login", (req, res) => {
     } else {
       res.status(401).json({ message: "Invalid username or password" });
     }
+  }
+});
+
+usersRouter.get('/:id/groups', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await Users.findById(id);
+    const groups = await Groups.getGroupsByUser(id);
+    if(user) {
+      res.status(200).json({ ...user, groups });      
+    } else {
+      res.status(404).json({ message: 'User not found'})
+    }
+  } catch (error) {
+    res.status(500).json(error);
   }
 });
 
