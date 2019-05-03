@@ -8,7 +8,7 @@ const Groups = require('../models/groups.js');
 const fb = require("../middleware/firebase.js");
 // fb.isAuthenticated
 
-usersRouter.get("/", (req, res) => {
+usersRouter.get("/", fb.isAuthenticated, (req, res) => {
   Users.find()
     .then(users => {
       res.json(users);
@@ -16,7 +16,7 @@ usersRouter.get("/", (req, res) => {
     .catch(error => res.send(error));
 });
 
-usersRouter.get("/:id", async (req, res) => {
+usersRouter.get("/:id", fb.isAuthenticated, async (req, res) => {
   try {
     const user = await Users.findById(req.params.id);
     if (user) {
@@ -41,12 +41,12 @@ usersRouter.get("/:id", async (req, res) => {
   }
 });
 
-usersRouter.post("/register", async (req, res) => {
-  // if (!req.body.token) {
-  //   return res
-  //     .status(400)
-  //     .json("We need the right registration credentials prior to logging in!");
-  // } else {
+usersRouter.post("/register", fb.isAuthenticated, async (req, res) => {
+  if (!req.body.token) {
+    return res
+      .status(400)
+      .json("We need the right registration credentials prior to logging in!");
+  } else {
     try {
       let newUser = req.body;
       if (newUser) {
@@ -62,10 +62,11 @@ usersRouter.post("/register", async (req, res) => {
     } catch (error) {
       res.status(500).send(error.message);
     }
-  // }
-});
+  }
+})
 
-usersRouter.post("/login", (req, res) => {
+
+usersRouter.post("/login", fb.isAuthenticated, (req, res) => {
   if (!req.body.token) {
     return res
       .status(400)
@@ -91,7 +92,7 @@ usersRouter.post("/login", (req, res) => {
   }
 });
 
-usersRouter.get('/:id/groups', async (req, res) => {
+usersRouter.get('/:id/groups', fb.isAuthenticated, async (req, res) => {
   const { id } = req.params;
 
   try {
