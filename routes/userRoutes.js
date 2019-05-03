@@ -41,7 +41,7 @@ usersRouter.get("/:id", async (req, res) => {
   }
 });
 
-usersRouter.post("/register", async (req, res) => {
+usersRouter.post("/register", fb.isAuthenticated, async (req, res) => {
   // if (!req.body.token) {
   //   return res
   //     .status(400)
