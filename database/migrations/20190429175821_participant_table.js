@@ -9,7 +9,6 @@ exports.up = function(knex, Promise) {
       .inTable("group")
       .onDelete("CASCADE")
       .onUpdate("CASCADE");
-    partcpntTbl.string("participantName").notNullable();
     partcpntTbl.boolean("paid");
     partcpntTbl.text("venmoPhoto");
     partcpntTbl

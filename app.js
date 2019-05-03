@@ -16,6 +16,7 @@ app.use(helmet());
 
 //app working!
 app.get('/', (req, res,) => {
+
     res.send(`sanity check success`)
 });
 
@@ -25,7 +26,4 @@ app.use('/api/participant', participantRouter);
 
 module.exports = app;
 
-// DATABASE_HOST = localhost
-// DATABASE = postgres
-// DATABASE_USER = postgres
-// DATABASE_PASSWORD = lambdalabs
+

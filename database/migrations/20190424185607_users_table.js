@@ -4,7 +4,6 @@ exports.up = function(knex, Promise) {
 
     usersTbl
       .string("username")
-      .notNullable()
       .unique();
     usersTbl.string("password").notNullable();
     usersTbl.string("profilePhoto");
