@@ -14,6 +14,9 @@
 # /api/users/register -- create/add a new user
 # /api/users/login  -- login to website 
 
+# ---------/PUT request --------
+# /api/users/:id -- edit/update user by an id
+
 
 
 ######### Group Routes #########
