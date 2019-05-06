@@ -1,42 +1,64 @@
 const db = require("../database/dbConfig.js");
 
 module.exports = {
-  findParticipantsByGroup,
-  participantByiD,
-  delParticipant,
-  findParticipant,
-  addParticipant, 
-};
 
-async function addParticipant(participant) {
-  const [id] = await db("participant")
-    .insert(participant)
-    .returning("id");
-  return participantByiD(id);
+    participantByiD,
+    delParticipant,
+    findParticipant,
+    addParticipant,
+    showGroupsforParticipant
 }
 
-function findParticipantsByGroup(id) {
-  // return db("participant")
-  //          .where({ groupId : id })
-  //          .innerJoin("users","participant.partUserId","=","users.id")
-  return db
-    .select("users.username", "participant.venmoPhoto")
-    .from("participant")
-    .innerJoin("users", "participant.partUserId", "=", "users.id")
-    .where({ groupId: id });
+
+async  function addParticipant(participant){
+    const [id] = await db("participant")
+                  .insert(participant)
+                  .returning("id")
+    return participantByiD(id)
 }
+
+
 
 function findParticipant() {
-  return db("participant");
+    return db("participant").
+           select("participant.id",
+                  "users.username",
+                  "participant.venmoPhoto",
+                  "participant.groupId")
+                  .innerJoin("users", "participant.partUserId", "=", "users.id")
 }
 
 function participantByiD(id) {
-  return db("participant").where({ id });
+    return db("participant")
+          .where({id})
+          .select("participant.id",
+                  "venmoPhoto",
+                  "groupId",
+                  "partUserId",)
+                  .first()
+
+
 }
 
 function delParticipant(id) {
-  return db("participant")
-    .where({ id })
-    .del();
+    return db("participant").where({id}).del();
+}
+
+function showGroupsforParticipant(id) {
+    return db.select(
+                     "group.id",
+                     "group.userId",
+                     "group.groupName",
+                     "group.buyInAmt",
+                     "group.startDate",
+                     "group.endDate",
+                     "group.groupMessage",
+                     "group.potTotal")
+                     .from("group")
+                     .innerJoin("participant", "participant.groupId", "=", "group.id")
+                     .where({"participant.id": id})
+
+                    
+                
 }
 
