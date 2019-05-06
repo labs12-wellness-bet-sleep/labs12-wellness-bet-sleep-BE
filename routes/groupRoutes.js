@@ -3,7 +3,9 @@ const Group = require("../models/groups.js");
 const userdb = require("../database/dbConfig.js");
 const Participant = require("../models/participants.js");
 
-groupsRouter.get("/", (req, res) => {
+const fb = require("../middleware/firebase.js");
+
+groupsRouter.get("/", fb.isAuthenticated, (req, res) => {
     Group.findGroup()
         .then(groups => {
             res.json(groups);
