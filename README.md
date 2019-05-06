@@ -10,7 +10,7 @@
 # /api/users -- grab all users in database
 # /api/users/:id -- grab an individual user by id
 
-# /POST request
+# ---------/POST request ---------
 # /api/users/register -- create/add a new user
 # /api/users/login  -- login to website 
 
