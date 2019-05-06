@@ -7,6 +7,7 @@ const Groups = require('../models/groups.js');
 const fb = require("../middleware/firebase.js");
 // fb.isAuthenticated
 
+
 usersRouter.get("/", (req, res) => {
   Users.find()
     .then(users => {
