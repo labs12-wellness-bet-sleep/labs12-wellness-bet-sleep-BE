@@ -17,6 +17,7 @@ exports.up = function(knex, Promise) {
       .notNullable()
       .references("id")
       .inTable("users")
+      .unique()
       .onDelete("CASCADE")
       .onUpdate("CASCADE");
     partcpntTbl.dropForeign("groupId");

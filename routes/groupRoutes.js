@@ -3,7 +3,9 @@ const Group = require("../models/groups.js");
 const userdb = require("../database/dbConfig.js");
 const Participant = require("../models/participants.js");
 
-groupsRouter.get("/", (req, res) => {
+const fb = require("../middleware/firebase.js");
+
+groupsRouter.get("/", fb.isAuthenticated, (req, res) => {
     Group.findGroup()
         .then(groups => {
             res.json(groups);
@@ -32,8 +34,9 @@ groupsRouter.get("/:id/participant", async (req, res) => {
        
         if(id){
            const group = await Group.findGroupById(id);
-
-           const participant = await Participant.findParticipantsByGroup(id)
+           console.log("group", group)
+           const participant = await Group.findParticipantsByGroup(id)
+           console.log("participant", participant)
            res.status(200).json({...group, participant});
         } else {
             res.status(400).json({message:`Group with id:${id} does not exist `})
