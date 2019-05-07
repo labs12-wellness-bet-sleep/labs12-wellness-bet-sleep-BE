@@ -74,34 +74,36 @@ groupsRouter.post("/invite", async (req, res) => {
       groupMessage
     } = req.body;
 
-    const group = await groupdb("group")
-      .insert(
-        [{ userId: userId,
-        groupName: groupName,
-        buyInAmt: buyInAmt,
-        startDate: startDate,
-        endDate: endDate,
-        joinCode: uuidv4(),
-        groupMessage: groupMessage}]
-      )
+    const [group] = await groupdb("group")
+      .insert([
+        {
+          userId: userId,
+          groupName: groupName,
+          buyInAmt: buyInAmt,
+          startDate: startDate,
+          endDate: endDate,
+          joinCode: uuidv4(),
+          groupMessage: groupMessage
+        }
+      ])
       .returning("id");
-    //   const newGroup = await groupdb("group")
-    //   .where({ id: group })
-    //   .select(
-    //     "id",
-    //     "userId",
-    //     "groupName",
-    //     "buyInAmt",
-    //     "startDate",
-    //     "endDate",
-    //     "joinCode",
-    //     "groupMessage",
-    //     "potTotal"
-    //   )
-    //   .first();
 
     if (group) {
-      res.status(200).json(group);
+      const newGroup = await groupdb("group")
+        .where({ id: group })
+        .select(
+          "id",
+          "userId",
+          "groupName",
+          "buyInAmt",
+          "startDate",
+          "endDate",
+          "joinCode",
+          "groupMessage",
+          "potTotal"
+        )
+        .first();
+      res.status(200).json(newGroup);
     } else {
       res.status(401).json({ message: "All entries must be entered" });
     }
