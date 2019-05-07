@@ -49,59 +49,66 @@ groupsRouter.get("/:id/participant", async (req, res) => {
 });
 
 groupsRouter.post("/create", async (req, res) => {
-    try {
-        let newGroup = req.body;
-        if(newGroup) {
-            const group = await Group.addGroup(newGroup);
-            res.status(200).json(group)
-        } else {
-            res.status(401).json({message: "All entries must be entered"});
-        }
-
-    } catch(error) {
-        res.status(500).send(error.message);
+  try {
+    let newGroup = req.body;
+    if (newGroup) {
+      const group = await Group.addGroup(newGroup);
+      res.status(200).json(group);
+    } else {
+      res.status(401).json({ message: "All entries must be entered" });
     }
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
 });
 
-// groupsRouter.post("/invite", async (req, res) => {
-//   try {
-//     const {
-//       userId,
-//       groupName,
-//       buyInAmt,
-//       startDate,
-//       endDate,
-//       joinCode,
-//       groupMessage
-//     } = req.body;
+groupsRouter.post("/invite", async (req, res) => {
+  try {
+    const {
+      userId,
+      groupName,
+      buyInAmt,
+      startDate,
+      endDate,
+      joinCode,
+      groupMessage
+    } = req.body;
 
-//     const group = await groupdb("group")
-//       .insert(req.body).where({joinCode: uuidv4()}).returning('id')
-//     //   const newGroup = await groupdb("group")
-//     //   .where({ id: group })
-//     //   .select(
-//     //     "id",
-//     //     "userId",
-//     //     "groupName",
-//     //     "buyInAmt",
-//     //     "startDate",
-//     //     "endDate",
-//     //     "joinCode",
-//     //     "groupMessage",
-//     //     "potTotal"
-//     //   )
-//     //   .first();
-    
-//     if (group) {
-      
-//       res.status(200).json(group);
-//     } else {
-//       res.status(401).json({ message: "All entries must be entered" });
-//     }
-//   } catch (error) {
-//     res.status(500).send(error.message);
-//   }
-// });
+    const group = await groupdb("group")
+      .insert(
+        [{ userId: userId,
+        groupName: groupName,
+        buyInAmt: buyInAmt,
+        startDate: startDate,
+        endDate: endDate,
+        joinCode: uuidv4(),
+        groupMessage: groupMessage}]
+      )
+      .returning("id");
+    //   const newGroup = await groupdb("group")
+    //   .where({ id: group })
+    //   .select(
+    //     "id",
+    //     "userId",
+    //     "groupName",
+    //     "buyInAmt",
+    //     "startDate",
+    //     "endDate",
+    //     "joinCode",
+    //     "groupMessage",
+    //     "potTotal"
+    //   )
+    //   .first();
+
+    if (group) {
+      res.status(200).json(group);
+    } else {
+      res.status(401).json({ message: "All entries must be entered" });
+    }
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
 
 groupsRouter.put("/:id", async (req, res) => {
   try {

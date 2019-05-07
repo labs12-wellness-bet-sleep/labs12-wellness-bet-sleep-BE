@@ -14,13 +14,12 @@ exports.up = function(knex, Promise) {
     groupTbl.decimal("buyInAmt").notNullable();
     groupTbl.date("startDate");
     groupTbl.date("endDate");
-    groupTbl.uuid('joinCode').defaultTo(uuidv4());
+    groupTbl.uuid("joinCode").defaultTo(uuidv4());
     groupTbl.text("groupMessage");
     groupTbl.decimal("potTotal");
     groupTbl.dropForeign("userId");
   });
 };
-
 
 exports.down = function(knex, Promise) {
   return knex.schema.dropTableIfExists("group");
