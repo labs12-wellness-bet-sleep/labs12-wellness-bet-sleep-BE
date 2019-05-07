@@ -7,7 +7,7 @@ sendgrid.setApiKey(sendgridKey)
 joinLinkRouter.get('/join', async (req, res) => {
     try{
         await sendgrid.send({
-            to: 'latifah.pres@gmail.com',
+            to: '',
             from: 'wellnessbetsleep@gmail.com',
             subject: 'Join Code',
             text: 'Here is your join code to send to your friends',
