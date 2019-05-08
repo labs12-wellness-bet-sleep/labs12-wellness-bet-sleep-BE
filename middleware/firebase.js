@@ -20,6 +20,7 @@ function isAuthenticated(req, res, next) {
         firebase.auth().verifyIdToken(authHeader)
         .then(function(decodedToken){
             console.log(decodedToken);
+            req.body.email = email;
             req.body.token = decodedToken.uid;
             next();
         })
