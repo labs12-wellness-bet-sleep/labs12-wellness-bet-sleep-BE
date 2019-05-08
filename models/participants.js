@@ -24,7 +24,7 @@ function findParticipant() {
            select("participant.id",
                   "users.username",
                   "participant.venmoPhoto",
-                  "participant.groupId")
+                  "participant.groupId",)
                   .innerJoin("users", "participant.partUserId", "=", "users.id")
 }
 

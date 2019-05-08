@@ -62,7 +62,7 @@ function delGroup(id) {
 
 function findParticipantsByGroup(id) {
 
-  return db.select("users.username","users.profilePhoto","participant.venmoPhoto")
+  return db.select("users.username","users.profilePhoto","participant.venmoPhoto", "participant.paid")
            .from("participant")
            .innerJoin("users", "participant.partUserId", "=", "users.id")
            .where({ groupId: id})                    

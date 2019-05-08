@@ -64,6 +64,20 @@ usersRouter.post("/register", async (req, res) => {
 })
 
 
+usersRouter.put("/:id", async (req, res) => {
+  try {
+      const user = await Users.updateUser(req.params.id, req.body);
+      if(user){
+          res.status(200).json(user);
+      } else {
+          res.status(404).json({message : "user is not found"});
+      }
+  } catch(error) {
+      res.status(500).json({message: "Error updating the group"});
+  }
+});
+
+
 usersRouter.post("/login", (req, res) => {
   if (!req.body.token) {
     return res
