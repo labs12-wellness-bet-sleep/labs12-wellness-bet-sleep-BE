@@ -1,18 +1,23 @@
+const fitBitOAuthRouter = require("express").Router();
 
-var passport = require('passport')
-  , OAuthStrategy = require('passport-oauth').OAuthStrategy;
-
-passport.use('provider', new OAuthStrategy({
-    requestTokenURL: 'https://www.provider.com/oauth/request_token',
-    accessTokenURL: 'https://www.provider.com/oauth/access_token',
-    userAuthorizationURL: 'https://www.provider.com/oauth/authorize',
-    consumerKey: '123-456-789',
-    consumerSecret: 'shhh-its-a-secret',
-    callbackURL: 'https://www.example.com/auth/provider/callback'
-  },
-  function(token, tokenSecret, profile, done) {
-    User.findOrCreate(..., function(err, user) {
-      done(err, user);
-    });
-  }
-));
+// Declare the redirect route
+fitBitOAuthRouter.get('/oauth/redirect', (req, res) => {
+    // The req.query object has the query params that
+    // were sent to this route. We want the `code` param
+    axios({
+      // make a POST request
+      method: 'post',
+      // to FitBit API
+      url: `https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=22DHYR&redirect_uri=https%3A%2F%2Fsleep-bet.herokuapp.com%2F&scope=sleep&expires_in=604800`,
+      // Set the content type header, so that we get the response in JSOn
+      headers: {
+           accept: 'application/json'
+      }
+    }).then((response) => {
+      // Once we get the response, extract the access token from
+      // the response body
+      const accessToken = response.data.access_token
+      // redirect the user to the welcome page, along with the access token
+      res.redirect(`/groupDashboard?access_token=${accessToken}`)
+    })
+  })
