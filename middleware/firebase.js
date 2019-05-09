@@ -9,7 +9,7 @@ module.exports = {
 // https://firebase.google.com/docs/auth/admin/verify-id-tokens
 function isAuthenticated(req, res, next) {
     const authHeader = req.headers.authorization;
-    console.log(authHeader);
+    console.log("authheader", authHeader);
 
     if(!authHeader) {
         return res.status(403).json({
@@ -19,9 +19,8 @@ function isAuthenticated(req, res, next) {
     } else {
         firebase.auth().verifyIdToken(authHeader)
         .then(function(decodedToken){
-            console.log(decodedToken);
-            req.body.email = email;
-            req.body.token = decodedToken.uid;
+            console.log("decodedToken",decodedToken);
+            req.firebaseId = decodedToken.uid;
             next();
         })
         .catch(function(error){
