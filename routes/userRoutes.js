@@ -8,10 +8,11 @@ const fb = require("../middleware/firebase.js");
 // fb.isAuthenticated
 
 
-usersRouter.get("/", (req, res) => {
+usersRouter.get("/", fb.isAuthenticated, (req, res) => {
   Users.find()
     .then(users => {
       res.json(users);
+      console.log(res)
     })
     .catch(error => res.send(error));
 });

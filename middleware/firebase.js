@@ -9,7 +9,7 @@ module.exports = {
 // https://firebase.google.com/docs/auth/admin/verify-id-tokens
 function isAuthenticated(req, res, next) {
     const authHeader = req.headers.authorization;
-    console.log(authHeader);
+    console.log(authHeader,'auth header');
 
     if(!authHeader) {
         return res.status(403).json({
