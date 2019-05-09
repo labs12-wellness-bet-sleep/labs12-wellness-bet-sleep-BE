@@ -49,6 +49,20 @@ participantRouter.get("/:id/groups", async (req, res) => {
  
 });
 
+
+participantRouter.put("/:id", async (req, res) => {
+  try {
+      const participant = await Participant.updateParticipant(req.params.id, req.body);
+      if(participant){
+          res.status(200).json(participant);
+      } else {
+          res.status(404).json({message : "Participant is not found"});
+      }
+  } catch(error) {
+      res.status(500).json({message: "Error updating the group"});
+  }
+});
+
 participantRouter.post("/add", async (req, res) => {
   try {
     const newParticipant = req.body;

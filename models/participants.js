@@ -6,7 +6,8 @@ module.exports = {
     delParticipant,
     findParticipant,
     addParticipant,
-    showGroupsforParticipant
+    showGroupsforParticipant,
+    updateParticipant
 }
 
 
@@ -34,11 +35,18 @@ function participantByiD(id) {
           .select("participant.id",
                   "venmoPhoto",
                   "groupId",
-                  "partUserId",)
+                  "partUserId",
+                  "participant.paid")
                   .first()
 
 
 }
+
+function updateParticipant(id, changes) {
+    return db("participant")
+      .where({ id })
+      .update(changes, "*");
+  }
 
 function delParticipant(id) {
     return db("participant").where({id}).del();
