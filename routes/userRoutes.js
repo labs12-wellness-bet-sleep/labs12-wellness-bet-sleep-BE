@@ -42,13 +42,15 @@ usersRouter.get("/:id", async (req, res) => {
 });
 
 usersRouter.post("/register", async (req, res) => {
-  // if (!req.body.token) {
-  //   return res
-  //     .status(400)
-  //     .json("We need the right registration credentials prior to logging in!");
-  // } else {
+  if (!req.body.token) {
+    console.log(req.body.token)
+    return res
+      .status(400)
+      .json("We need the right registration credentials prior to logging in!");
+  } else {
     try {
       let newUser = req.body;
+
       if (newUser) {
         const user = await Users.register(newUser);
         res.status(200).json(user);
@@ -60,7 +62,7 @@ usersRouter.post("/register", async (req, res) => {
     } catch (error) {
       res.status(500).send(error.message);
     }
-  // }
+  }
 })
 
 

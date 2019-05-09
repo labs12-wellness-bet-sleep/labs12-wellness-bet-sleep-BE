@@ -60,23 +60,6 @@ function getGroupsByUser(id) {
   return db("group").where({ userId: id });
 }
 
-function findGroupByUserId(id) {
-  return db("group")
-    .where({ userId: id })
-    .select(
-      "id",
-      "userId",
-      "groupName",
-      "buyInAmt",
-      "startDate",
-      "endDate",
-      "joinCode",
-      "groupMessage",
-      "potTotal"
-    )
-    .first();
-}
-
 function delGroup(id) {
   return db("group")
     .where({ id })

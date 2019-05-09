@@ -83,6 +83,24 @@ groupsRouter.get("/:id/participant", async (req, res) => {
   }
 });
 
+groupsRouter.post("/:id/participant", async (req, res) => {
+  try {
+    let { id } = req.params;
+
+    if (id) {
+      const group = await Group.findGroupById(id);
+      // console.log("group", group);
+      const participant = await Participant.addParticipant(req.body);
+      // console.log("participant", participant);
+      res.status(200).json({ ...group, participant });
+    } else {
+      res.status(400).json({ message: `Group with id:${id} does not exist ` });
+    }
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
 groupsRouter.post("/create", async (req, res) => {
   try {
     let newGroup = req.body;
@@ -113,6 +131,7 @@ groupsRouter.post("/invite", async (req, res) => {
         {
           userId: userId,
           joinCode: uuidv4(),
+          
           // groupName: groupName,
           // buyInAmt: buyInAmt,
           // startDate: startDate,

@@ -1,5 +1,7 @@
 const joinLinkRouter = require("express").Router();
 const sendgrid = require('@sendgrid/mail');
+const db = require("../database/dbConfig.js");
+const groupModel = require('../models/groups.js');
 
 const sendgridKey = process.env.SENDGRID_API_KEY
 sendgrid.setApiKey(sendgridKey)
@@ -24,18 +26,23 @@ sendgrid.setApiKey(sendgridKey)
 
 
 joinLinkRouter.get("/", (req, res) => {
+  
   const { recipient, sender, topic, text, link } = req.query;
-  let clientUrl = `http://localhost:8080/api/groups/join/${text}`;
+  
+  const group = groupModel.addGroup({userId: 499});
+  console.log(group)
 
-  const msg = {
-    to: recipient,
-    from: sender,
-    subject: topic,
-    text: text,
-    html: `<p>Your inviation link is: <a href='${clientUrl}'>${clientUrl}</a></p>`
-  };
+  // let clientUrl = `http://localhost:8080/api/groups/join/${text}/?groupId=`;
 
-  sendgrid.send(msg).then((msg) => console.log(text));
+  // const msg = {
+  //   to: recipient,
+  //   from: sender,
+  //   subject: topic,
+  //   text: text,
+  //   html: `<p>Your inviation link is: <a href='${clientUrl}'>${clientUrl}</a></p>`
+  // };
+
+  // sendgrid.send(msg).then((msg) => console.log(text));
 });
 
 module.exports = joinLinkRouter;

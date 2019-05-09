@@ -1,4 +1,5 @@
-const firebase = require("../firebase/firebaseConfig.js");
+const fb = require('firebase-admin');
+fb.initializeApp();
 
 module.exports = {
     isAuthenticated
@@ -17,7 +18,7 @@ function isAuthenticated(req, res, next) {
             message: "FORBIDDEN"
         })
     } else {
-        firebase.auth().verifyIdToken(authHeader)
+        fb.auth().verifyIdToken(authHeader)
         .then(function(decodedToken){
             console.log(decodedToken);
             req.body.token = decodedToken.uid;
@@ -31,6 +32,5 @@ function isAuthenticated(req, res, next) {
             })
         })
     }
-
 }
 
