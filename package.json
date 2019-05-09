@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "engines": {
-    "node": "11.7.0"
+    "node": "10.15.3"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,6 +12,7 @@
     "start": "node index.js"
   },
   "dependencies": {
+    "@sendgrid/mail": "^6.4.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^7.0.0",
@@ -19,11 +20,13 @@
     "faker": "^4.1.0",
     "firebase": "^5.10.1",
     "firebase-admin": "^7.3.0",
-
     "helmet": "^3.16.0",
     "knex": "^0.16.5",
     "morgan": "^1.9.1",
-    "pg": "^7.10.0"
+    "sendgrid": "^5.2.3"
+    "nodemailer": "^6.1.1",
+    "pg": "^7.10.0",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "nodemon": "^1.18.11"
