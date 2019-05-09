@@ -17,7 +17,7 @@ async function register(user) {
 }
 
 function login(email) {
-  return db("users").where({email: email});
+  return db("users").where({email: email}).first();
 }
 
 function find() {
