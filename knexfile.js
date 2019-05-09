@@ -17,7 +17,7 @@ const productionDbConnection = process.env.DATABASE_URL || localPg;
 module.exports = {
   development: {
     client: 'pg',
-    connection: localPg,
+    connection: productionDbConnection,
     migrations: {
       directory: './database/migrations'
     },
