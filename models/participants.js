@@ -6,7 +6,8 @@ module.exports = {
     delParticipant,
     findParticipant,
     addParticipant,
-    showGroupsforParticipant
+    showGroupsforParticipant,
+    updateParticipant
 }
 
 
@@ -24,7 +25,7 @@ function findParticipant() {
            select("participant.id",
                   "users.username",
                   "participant.venmoPhoto",
-                  "participant.groupId")
+                  "participant.groupId",)
                   .innerJoin("users", "participant.partUserId", "=", "users.id")
 }
 
@@ -34,11 +35,18 @@ function participantByiD(id) {
           .select("participant.id",
                   "venmoPhoto",
                   "groupId",
-                  "partUserId",)
+                  "partUserId",
+                  "participant.paid")
                   .first()
 
 
 }
+
+function updateParticipant(id, changes) {
+    return db("participant")
+      .where({ id })
+      .update(changes, "*");
+  }
 
 function delParticipant(id) {
     return db("participant").where({id}).del();

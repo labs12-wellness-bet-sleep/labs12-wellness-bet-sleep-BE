@@ -1,3 +1,4 @@
+const uuidv4 = require("uuid/v4");
 exports.up = function(knex, Promise) {
   return knex.schema.createTable("group", groupTbl => {
     groupTbl.increments();
@@ -13,7 +14,7 @@ exports.up = function(knex, Promise) {
     groupTbl.decimal("buyInAmt").notNullable();
     groupTbl.date("startDate");
     groupTbl.date("endDate");
-    groupTbl.text("joinCode");
+    groupTbl.uuid("joinCode").defaultTo(uuidv4());
     groupTbl.text("groupMessage");
     groupTbl.decimal("potTotal");
     groupTbl.dropForeign("userId");

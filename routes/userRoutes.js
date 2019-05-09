@@ -42,17 +42,23 @@ usersRouter.get("/:id", async (req, res) => {
   }
 });
 
-usersRouter.post("/register", fb.isAuthenticated, async (req, res) => {
+usersRouter.post("/register", async (req, res) => {
   // if (!req.body.token) {
   //   return res
   //     .status(400)
   //     .json("We need the right registration credentials prior to logging in!");
   // } else {
     try {
+      console.log("here")
       let newUser = req.body;
       if (newUser) {
+        newUser.password = "password";
         const user = await Users.register(newUser);
-        res.status(200).json(user);
+        res.status(200).json({
+          
+          user,
+          message: "Thank you for Registering"
+        });
       } else {
         res.status(404).json({
           message: "Incomplete registration"
@@ -65,18 +71,31 @@ usersRouter.post("/register", fb.isAuthenticated, async (req, res) => {
 })
 
 
-usersRouter.post("/login", (req, res) => {
-  if (!req.body.token) {
-    return res
-      .status(400)
-      .json("We need the right registration credentials prior to logging in!");
-  } else {
-    let email = req.body.email;
-    if (email) {
-      Users.login({ email })
-        .first()
-        .then(() => {
-            res.status(200).json({ message: `Welcome ${user.fullName}!` });
+usersRouter.put("/:id", async (req, res) => {
+  try {
+      const user = await Users.updateUser(req.params.id, req.body);
+      if(user){
+          res.status(200).json(user);
+      } else {
+          res.status(404).json({message : "user is not found"});
+      }
+  } catch(error) {
+      res.status(500).json({message: "Error updating the group"});
+  }
+});
+
+
+usersRouter.get("/login/:id", fb.isAuthenticated, (req, res) => {
+  // if (!req.body.token) {
+  //   return res
+  //     .status(400)
+  //     .json("We need the right registration credentials prior to logging in!");
+  // } else {
+    if (req.params.id) {
+      Users.login(req.params.id)
+        .then((user) => {
+          console.log(user)
+            res.status(200).json({ message: `Welcome ${user.email}!` });
         })
         .catch(error => {
           res.status(500).json(error);
@@ -84,7 +103,6 @@ usersRouter.post("/login", (req, res) => {
     } else {
       res.status(401).json({ message: "Invalid email provided." });
     }
-  }
 });
 
 usersRouter.get('/:id/groups', async (req, res) => {
