@@ -22,6 +22,8 @@ fitBitOAuthRouter.get('/oauth/redirect', (req, res) => {
       // redirect the user to the welcome page, along with the access token
       res.redirect(`/groupDashboard?access_token=${accessToken}`);
       res.status(200).json({user_id: user_id});
+
+
     })
   })
 
