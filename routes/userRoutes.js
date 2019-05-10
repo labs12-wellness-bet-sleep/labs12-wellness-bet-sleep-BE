@@ -42,7 +42,7 @@ usersRouter.get("/:id", async (req, res) => {
   }
 });
 
-usersRouter.post("/register", async (req, res) => {
+usersRouter.post("/register",  async (req, res) => {
   // if (!req.body.token) {
   //   return res
   //     .status(400)
@@ -66,6 +66,7 @@ usersRouter.post("/register", async (req, res) => {
       }
     } catch (error) {
       res.status(500).send(error.message);
+      console.log(error, 'register error')
     }
   // }
 })
@@ -99,6 +100,7 @@ usersRouter.get("/login/:id", fb.isAuthenticated, (req, res) => {
         })
         .catch(error => {
           res.status(500).json(error);
+          
         });
     } else {
       res.status(401).json({ message: "Invalid email provided." });
