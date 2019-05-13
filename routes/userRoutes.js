@@ -8,7 +8,7 @@ const fb = require("../middleware/firebase.js");
 // fb.isAuthenticated
 
 
-usersRouter.get("/", (req, res) => {
+usersRouter.get("/", fb.isAuthenticated, (req, res) => {
   Users.find()
     .then(users => {
       res.json(users);
@@ -42,12 +42,12 @@ usersRouter.get("/:id", async (req, res) => {
 });
 
 usersRouter.post("/register", async (req, res) => {
-  if (!req.body.token) {
-    console.log(req.body.token)
-    return res
-      .status(400)
-      .json("We need the right registration credentials prior to logging in!");
-  } else {
+  // if (!req.body.token) {
+  //   // console.log(req.body.token)
+  //   return res
+  //     .status(400)
+  //     .json("We need the right registration credentials prior to logging in!");
+  // } else {
     try {
       console.log("here")
       let newUser = req.body;
@@ -68,7 +68,7 @@ usersRouter.post("/register", async (req, res) => {
     } catch (error) {
       res.status(500).send(error.message);
     }
-  }
+  // }
 })
 
 
