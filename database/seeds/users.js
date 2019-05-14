@@ -8,7 +8,6 @@ exports.seed = function(knex, Promise) {
     const users = [];
     for (let i = 0; i < num; i++) {
       users.push({
-        
         password: bcrypt.hashSync("password", 10),
         profilePhoto: faker.image.imageUrl(),
         email: faker.internet.email(),
