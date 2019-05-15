@@ -17,7 +17,7 @@ usersRouter.get("/", fb.isAuthenticated, (req, res) => {
     .catch(error => res.send(error));
 });
 
-usersRouter.get("/:id", async (req, res) => {
+usersRouter.get("/:id", fb.isAuthenticated, async (req, res) => {
   try {
     const user = await Users.findById(req.params.id);
     if (user) {
