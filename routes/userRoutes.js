@@ -44,6 +44,7 @@ usersRouter.get("/:id", async (req, res) => {
 
 usersRouter.post("/register",  async (req, res) => {
   // if (!req.body.token) {
+  //   // console.log(req.body.token)
   //   return res
   //     .status(400)
   //     .json("We need the right registration credentials prior to logging in!");
@@ -51,6 +52,7 @@ usersRouter.post("/register",  async (req, res) => {
     try {
       console.log("here")
       let newUser = req.body;
+
       if (newUser) {
         newUser.password = "password";
         const user = await Users.register(newUser);

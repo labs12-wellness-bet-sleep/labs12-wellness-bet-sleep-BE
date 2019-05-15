@@ -10,8 +10,8 @@ exports.up = function(knex, Promise) {
       .inTable("users")
       .onDelete("CASCADE")
       .onUpdate("CASCADE");
-    groupTbl.text("groupName").notNullable();
-    groupTbl.decimal("buyInAmt").notNullable();
+    groupTbl.text("groupName");
+    groupTbl.decimal("buyInAmt");
     groupTbl.date("startDate");
     groupTbl.date("endDate");
     groupTbl.uuid("joinCode").defaultTo(uuidv4());

@@ -67,5 +67,3 @@ function findParticipantsByGroup(id) {
            .innerJoin("users", "participant.partUserId", "=", "users.id")
            .where({ groupId: id})                    
 }
-
-
