@@ -5,7 +5,7 @@ require('dotenv').config()
 
 const localPg = {
   host: 'localhost',
-  database: 'sleepbetdb',
+  database: 'sleep',
   user: 'postgres',
   password: process.env.DATABASE_PASSWORD,
 };
