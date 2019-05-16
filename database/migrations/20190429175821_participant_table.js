@@ -22,7 +22,7 @@ exports.up = function(knex, Promise) {
       .onUpdate("CASCADE");
     partcpntTbl.dropForeign("groupId");
     partcpntTbl.dropForeign("partUserId");
-    partcpntTbl.string("GoogleFitAuthCode");
+    partcpntTbl.string("SleepData");
   });
 };
 
