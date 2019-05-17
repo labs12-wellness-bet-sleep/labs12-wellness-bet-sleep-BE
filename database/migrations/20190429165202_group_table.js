@@ -10,6 +10,7 @@ exports.up = function(knex, Promise) {
       .inTable("users")
       .onDelete("CASCADE")
       .onUpdate("CASCADE");
+
     groupTbl
       .string("userfirebase_id", 500)
       .unsigned()
@@ -17,10 +18,11 @@ exports.up = function(knex, Promise) {
       .references("firebase_id")
       .inTable("users")
       .onUpdate('CASCADE');
-    groupTbl.text("groupName")
-      // .notNullable();
-    groupTbl.decimal("buyInAmt")
-    // .notNullable();
+ 
+
+    groupTbl.text("groupName");
+    groupTbl.decimal("buyInAmt");
+
     groupTbl.date("startDate");
     groupTbl.date("endDate");
     groupTbl.uuid("joinCode").defaultTo(uuidv4());

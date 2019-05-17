@@ -12,7 +12,7 @@ usersRouter.get("/", fb.isAuthenticated, (req, res) => {
   Users.find()
     .then(users => {
       res.json(users);
-      console.log(res)
+      // console.log(res)
     })
     .catch(error => res.send(error));
 });
@@ -47,6 +47,7 @@ usersRouter.get("/:id", fb.isAuthenticated, async (req, res) => {
 
 usersRouter.post("/register",  async (req, res) => {
   // if (!req.body.token) {
+  //   // console.log(req.body.token)
   //   return res
   //     .status(400)
   //     .json("We need the right registration credentials prior to logging in!");
@@ -54,7 +55,7 @@ usersRouter.post("/register",  async (req, res) => {
     try {
       
       let newUser = req.body;
-      
+
       if (newUser) {
         newUser.password = "password";
         const user = await Users.register(newUser);

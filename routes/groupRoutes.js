@@ -29,6 +29,41 @@ groupsRouter.get("/:id", async (req, res) => {
     res.status(500).send(error.message);
   }
 });
+groupsRouter.get('/join/:joinCode', async (req, res) => {
+  try {
+    const matchingGroup = await Group.findGroupByJoinCode(req.params.joinCode);
+    if(matchingGroup) {
+      res.status(200).json(matchingGroup);
+    } else {
+      res.status(404).json({ message: 'No group by that join code'});
+    }
+  } catch (error) {
+    res.status(500).send(error.message)
+  }
+});
+
+// groupsRouter.get('/:joinCode?', async (req, res) => {
+//   const joinCode = req.params.joinCode;
+//   try {
+//     const group = await groupdb('group').whereRaw('joinCode = ?', [joinCode]);
+//     if(group) {
+//       res.status(200).json(group);
+//     } else {
+//       res.status(404).json({ message: 'No group by that join code'});
+//     }
+    
+//   } catch (error) {
+//     res.status(500).json(error);
+//   }
+// });
+// groupsRouter.get('/:joinCode?', async (req, res) => {
+//   const joinCode = req.params.joinCode;
+//  Group.findGroupByJoinCode().then(data => {
+//    res.status(200).json(data);
+//  }).catch(err => {
+//    res.status(500).json({ message: `failed to get groups by ${joinCode} with error: ${err}`});
+//  })
+// })
 
 groupsRouter.get("/:id/participant", async (req, res) => {
 
@@ -71,8 +106,7 @@ groupsRouter.post("/invite", async (req, res) => {
       groupName,
       buyInAmt,
       startDate,
-      endDate,
-      joinCode,
+      endDate,      
       groupMessage
     } = req.body;
 
@@ -80,12 +114,13 @@ groupsRouter.post("/invite", async (req, res) => {
       .insert([
         {
           userId: userId,
-          groupName: groupName,
-          buyInAmt: buyInAmt,
-          startDate: startDate,
-          endDate: endDate,
           joinCode: uuidv4(),
-          groupMessage: groupMessage
+          
+          // groupName: groupName,
+          // buyInAmt: buyInAmt,
+          // startDate: startDate,
+          // endDate: endDate,          
+          // groupMessage: groupMessage
         }
       ])
       .returning("id");
