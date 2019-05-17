@@ -12,10 +12,10 @@ exports.up = function(knex, Promise) {
     partcpntTbl.boolean("paid");
     partcpntTbl.text("venmoPhoto");
     partcpntTbl
-      .integer("partUserId")
+      .string("partUserId")
       .unsigned()
       .notNullable()
-      .references("id")
+      .references("firebase_id")
       .inTable("users")
       .unique()
       .onDelete("CASCADE")
