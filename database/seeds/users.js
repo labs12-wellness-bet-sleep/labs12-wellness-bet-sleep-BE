@@ -9,6 +9,7 @@ exports.seed = function(knex, Promise) {
     for (let i = 0; i < num; i++) {
       users.push({
         password: bcrypt.hashSync("password", 10),
+        firebase_id: faker.random.uuid(),
         profilePhoto: faker.image.imageUrl(),
         email: faker.internet.email(),
         fullName: `${faker.name.firstName()} ${faker.name.lastName()}`

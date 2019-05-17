@@ -24,6 +24,7 @@ function find() {
   return db("users").select(
     "id",
     "password",
+    "firebase_id",
     "profilePhoto",
     "email",
     "role",
@@ -31,13 +32,14 @@ function find() {
   );
 }
 
-function findById(id) {
+function findById(firebase_id) {
   return db("users")
-    .where({ id })
+    .where({ 'firebase_id': firebase_id })
     .select(
       "id",
       "password",
       "profilePhoto",
+      "firebase_id",
       "email",
       "role",
       "fullName"
