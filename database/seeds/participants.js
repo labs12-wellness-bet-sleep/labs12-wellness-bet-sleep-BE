@@ -10,28 +10,29 @@ exports.seed = function(knex, Promise) {
         {
           groupId: 1,
           venmoPhoto: faker.image.imageUrl(),
-          partUserId: 1
+          partUserId: faker.random.uuid(),
+          
         },
 
         {
           groupId: 1,
           venmoPhoto: faker.image.imageUrl(),
-          partUserId: 2
+          partUserId: faker.random.uuid(),
         },
         {
           groupId: 2,
           venmoPhoto: faker.image.imageUrl(),
-          partUserId: 3
+          partUserId: faker.random.uuid(),
         },
         {
           groupId: 3,
           venmoPhoto: faker.image.imageUrl(),
-          partUserId: 4
+          partUserId: faker.random.uuid(),
         },
         {
           groupId: 3,
           venmoPhoto: faker.image.imageUrl(),
-          partUserId: 5
+          partUserId: faker.random.uuid(),
         }
       ]);
     });

@@ -17,9 +17,11 @@ usersRouter.get("/", (req, res) => {
     .catch(error => res.send(error));
 });
 
-usersRouter.get("/:id", async (req, res) => {
+usersRouter.get("/:id", fb.isAuthenticated, async (req, res) => {
+  console.log('user id')
   try {
     const user = await Users.findById(req.params.id);
+    console.log(user, 'user by id')
     if (user) {
       res.status(200).json({
         error: false,
@@ -34,6 +36,7 @@ usersRouter.get("/:id", async (req, res) => {
       });
     }
   } catch (error) {
+    console.log(error)
     res.status(500).json({
       error: true,
       user: {},
@@ -50,12 +53,13 @@ usersRouter.post("/register",  async (req, res) => {
   //     .json("We need the right registration credentials prior to logging in!");
   // } else {
     try {
-      console.log("here")
+      
       let newUser = req.body;
 
       if (newUser) {
         newUser.password = "password";
         const user = await Users.register(newUser);
+        console.log("here", newUser)
         res.status(200).json({
           
           user,
@@ -96,13 +100,15 @@ usersRouter.get("/login/:id", fb.isAuthenticated, (req, res) => {
   //     .json("We need the right registration credentials prior to logging in!");
   // } else {
     if (req.params.id) {
+      console.log(req.params.id, 'req params id')
       Users.login(req.params.id)
         .then((user) => {
-          console.log(user)
+          console.log(user, 'login by id')
             res.status(200).json({ message: `Welcome ${user.email}!` });
         })
         .catch(error => {
           res.status(500).json(error);
+          console.log(error)
           
         });
     } else {
