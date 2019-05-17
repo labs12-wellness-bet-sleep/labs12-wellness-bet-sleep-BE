@@ -23,7 +23,6 @@ function login(email) {
 function find() {
   return db("users").select(
     "id",
-    "username",
     "password",
     "profilePhoto",
     "email",
@@ -37,7 +36,6 @@ function findById(id) {
     .where({ id })
     .select(
       "id",
-      "username",
       "password",
       "profilePhoto",
       "email",

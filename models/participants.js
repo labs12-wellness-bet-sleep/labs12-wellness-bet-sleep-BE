@@ -23,7 +23,7 @@ async  function addParticipant(participant){
 function findParticipant() {
     return db("participant").
            select("participant.id",
-                  "users.username",
+                  "users.fullName",
                   "participant.venmoPhoto",
                   "participant.groupId",)
                   .innerJoin("users", "participant.partUserId", "=", "users.id")

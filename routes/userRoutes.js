@@ -8,10 +8,11 @@ const fb = require("../middleware/firebase.js");
 // fb.isAuthenticated
 
 
-usersRouter.get("/", (req, res) => {
+usersRouter.get("/", fb.isAuthenticated, (req, res) => {
   Users.find()
     .then(users => {
       res.json(users);
+      // console.log(res)
     })
     .catch(error => res.send(error));
 });
@@ -41,8 +42,9 @@ usersRouter.get("/:id", async (req, res) => {
   }
 });
 
-usersRouter.post("/register", async (req, res) => {
+usersRouter.post("/register",  async (req, res) => {
   // if (!req.body.token) {
+  //   // console.log(req.body.token)
   //   return res
   //     .status(400)
   //     .json("We need the right registration credentials prior to logging in!");
@@ -50,6 +52,7 @@ usersRouter.post("/register", async (req, res) => {
     try {
       console.log("here")
       let newUser = req.body;
+
       if (newUser) {
         newUser.password = "password";
         const user = await Users.register(newUser);
@@ -65,6 +68,7 @@ usersRouter.post("/register", async (req, res) => {
       }
     } catch (error) {
       res.status(500).send(error.message);
+      console.log(error, 'register error')
     }
   // }
 })
@@ -98,6 +102,7 @@ usersRouter.get("/login/:id", fb.isAuthenticated, (req, res) => {
         })
         .catch(error => {
           res.status(500).json(error);
+          
         });
     } else {
       res.status(401).json({ message: "Invalid email provided." });
