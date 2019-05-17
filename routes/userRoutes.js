@@ -50,7 +50,7 @@ usersRouter.post("/register",  async (req, res) => {
   //     .json("We need the right registration credentials prior to logging in!");
   // } else {
     try {
-      console.log("here")
+      // console.log("here")
       let newUser = req.body;
 
       if (newUser) {
@@ -68,7 +68,7 @@ usersRouter.post("/register",  async (req, res) => {
       }
     } catch (error) {
       res.status(500).send(error.message);
-      console.log(error, 'register error')
+      // console.log(error, 'register error')
     }
   // }
 })

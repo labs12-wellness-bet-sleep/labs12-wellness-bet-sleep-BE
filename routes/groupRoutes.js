@@ -95,6 +95,7 @@ groupsRouter.post("/create", async (req, res) => {
       res.status(401).json({ message: "All entries must be entered" });
     }
   } catch (error) {
+    console.log(error);
     res.status(500).send(error.message);
   }
 });
