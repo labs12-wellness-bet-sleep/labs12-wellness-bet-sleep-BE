@@ -27,6 +27,7 @@ joinLinkRouter.get("/", (req, res) => {
   const { recipient, sender, topic, text, link } = req.query;
   let clientUrl = `http://localhost:8080/api/groups/join/${text}`;
 
+
   const msg = {
     to: recipient,
     from: sender,
@@ -36,6 +37,7 @@ joinLinkRouter.get("/", (req, res) => {
   };
 
   sendgrid.send(msg).then((msg) => console.log(text));
+  //  sendgrid.send(msg)
 });
 
 module.exports = joinLinkRouter;
