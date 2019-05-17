@@ -8,7 +8,7 @@ const fb = require("../middleware/firebase.js");
 // fb.isAuthenticated
 
 
-usersRouter.get("/", fb.isAuthenticated, (req, res) => {
+usersRouter.get("/", (req, res) => {
   Users.find()
     .then(users => {
       res.json(users);
@@ -76,6 +76,7 @@ usersRouter.post("/register",  async (req, res) => {
 
 usersRouter.put("/:id", async (req, res) => {
   try {
+      console.log("What we are placing, ", req.body);
       const user = await Users.updateUser(req.params.id, req.body);
       if(user){
           res.status(200).json(user);
