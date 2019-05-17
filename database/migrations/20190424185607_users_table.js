@@ -13,7 +13,7 @@ exports.up = function(knex, Promise) {
       .unique();
     usersTbl.boolean("role");
     usersTbl.string("fullName").notNullable();
-    
+    usersTbl.string("SleepData");
   });
 };
 
