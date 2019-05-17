@@ -78,7 +78,7 @@ usersRouter.post("/register",  async (req, res) => {
 })
 
 
-usersRouter.put("/:id", async (req, res) => {
+usersRouter.put("/:id", fb.isAuthenticated, async (req, res) => {
   try {
       const user = await Users.updateUser(req.params.id, req.body);
       if(user){
@@ -115,7 +115,7 @@ usersRouter.get("/login/:id", fb.isAuthenticated, (req, res) => {
     }
 });
 
-usersRouter.get('/:id/groups', async (req, res) => {
+usersRouter.get('/:id/groups', fb.isAuthenticated, async (req, res) => {
   const { id } = req.params;
 
   try {

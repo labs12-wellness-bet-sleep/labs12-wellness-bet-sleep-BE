@@ -5,7 +5,7 @@ exports.up = function(knex, Promise) {
     groupTbl
       .integer("userId")
       .unsigned()
-      .notNullable()
+      // .notNullable()
       .references("id")
       .inTable("users")
       .onDelete("CASCADE")

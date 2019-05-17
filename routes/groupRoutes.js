@@ -7,7 +7,7 @@ const uuidv4 = require("uuid/v4");
 
 const fb = require("../middleware/firebase.js");
 
-groupsRouter.get("/", (req, res) => {
+groupsRouter.get("/", fb.isAuthenticated, (req, res) => {
   Group.findGroup()
     .then(groups => {
       res.json(groups);
@@ -17,7 +17,7 @@ groupsRouter.get("/", (req, res) => {
     });
 });
 
-groupsRouter.get("/:id", async (req, res) => {
+groupsRouter.get("/:id", fb.isAuthenticated, async (req, res) => {
   try {
     const group = await Group.findGroupById(req.params.id);
     if (group) {
@@ -100,7 +100,7 @@ groupsRouter.post("/create", async (req, res) => {
   }
 });
 
-groupsRouter.post("/invite", async (req, res) => {
+groupsRouter.post("/invite", fb.isAuthenticated, async (req, res) => {
   try {
     const {
       userId,
@@ -108,13 +108,14 @@ groupsRouter.post("/invite", async (req, res) => {
       buyInAmt,
       startDate,
       endDate,      
-      groupMessage
+      groupMessage,
+      userfirebase_id
     } = req.body;
 
     const [group] = await groupdb("group")
       .insert([
         {
-          userId: userId,
+          userfirebase_id: userfirebase_id,
           joinCode: uuidv4(),
           
           // groupName: groupName,
@@ -128,10 +129,11 @@ groupsRouter.post("/invite", async (req, res) => {
 
     if (group) {
       const newGroup = await groupdb("group")
-        .where({ id: group })
+        .where({ userfirebase_id: group })
         .select(
           "id",
           "userId",
+          "userfirebase_id",
           "groupName",
           "buyInAmt",
           "startDate",
@@ -150,7 +152,7 @@ groupsRouter.post("/invite", async (req, res) => {
   }
 });
 
-groupsRouter.put("/:id", async (req, res) => {
+groupsRouter.put("/:id", fb.isAuthenticated, async (req, res) => {
   try {
     const group = await Group.updateGroup(req.params.id, req.body);
     if (group) {
