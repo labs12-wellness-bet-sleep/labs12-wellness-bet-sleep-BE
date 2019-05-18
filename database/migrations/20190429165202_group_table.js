@@ -5,7 +5,7 @@ exports.up = function(knex, Promise) {
     groupTbl
       .integer("userId")
       .unsigned()
-      .notNullable()
+      // .notNullable()
       .references("id")
       .inTable("users")
       .onDelete("CASCADE")
@@ -29,6 +29,7 @@ exports.up = function(knex, Promise) {
     groupTbl.text("groupMessage");
     groupTbl.decimal("potTotal");
     groupTbl.dropForeign("userId");
+    groupTbl.dropForeign("userfirebase_id");
   });
 };
 

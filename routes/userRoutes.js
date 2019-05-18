@@ -8,7 +8,7 @@ const fb = require("../middleware/firebase.js");
 // fb.isAuthenticated
 
 
-usersRouter.get("/", (req, res) => {
+usersRouter.get("/", fb.isAuthenticated, (req, res) => {
   Users.find()
     .then(users => {
       res.json(users);
@@ -72,13 +72,13 @@ usersRouter.post("/register",  async (req, res) => {
       }
     } catch (error) {
       res.status(500).send(error.message);
-      console.log(error, 'register error')
+      // console.log(error, 'register error')
     }
   // }
 })
 
 
-usersRouter.put("/:id", async (req, res) => {
+usersRouter.put("/:id", fb.isAuthenticated, async (req, res) => {
   try {
       console.log("What we are placing, ", req.body);
       const user = await Users.updateUser(req.params.id, req.body);
@@ -116,7 +116,7 @@ usersRouter.get("/login/:id", fb.isAuthenticated, (req, res) => {
     }
 });
 
-usersRouter.get('/:id/groups', async (req, res) => {
+usersRouter.get('/:id/groups', fb.isAuthenticated, async (req, res) => {
   const { id } = req.params;
 
   try {
