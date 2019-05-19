@@ -9,7 +9,7 @@ sendgrid.setApiKey(sendgridKey)
 joinLinkRouter.get('/join', async (req, res) => {
   const joinCode = uuidv4();
     try{
-      console.log(joinCode);
+      // console.log(joinCode);
         await sendgrid.send({
             to: 'mssemmi8@gmail.com',
             from: 'wellnessbetsleep@gmail.com',
