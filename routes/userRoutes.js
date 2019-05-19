@@ -80,6 +80,7 @@ usersRouter.post("/register",  async (req, res) => {
 
 usersRouter.put("/:id", fb.isAuthenticated, async (req, res) => {
   try {
+      console.log("What we are placing, ", req.body);
       const user = await Users.updateUser(req.params.id, req.body);
       if(user){
           res.status(200).json(user);
