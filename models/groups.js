@@ -7,7 +7,8 @@ module.exports = {
   updateGroup,
   delGroup,
   findParticipantsByGroup,
-  findGroupByJoinCode
+  findGroupByJoinCode,
+  findParticipantsByGroupJoinCode
 };
 
 async function addGroup(group) {
@@ -27,6 +28,7 @@ function findGroup() {
   return db("group").select(
     "id",
     "groupName",
+    "userfirebase_id",
     "buyInAmt",
     "startDate",
     "endDate",
@@ -53,6 +55,7 @@ function findGroupById(id) {
     .first();
 }
 
+
 function delGroup(id) {
   return db("group")
     .where({ id })
@@ -65,7 +68,7 @@ function findParticipantsByGroup(id) {
 
   return db.select("participant.id", "users.fullName","users.profilePhoto","participant.venmoPhoto", "participant.paid")
            .from("participant")
-           .innerJoin("users", "participant.partUserId", "=", "users.id")
+           .innerJoin("users", "participant.partUserId", "=", "users.firebase_id")
            .where({ groupId: id})                    
 }
 
@@ -84,4 +87,12 @@ function findGroupByJoinCode(joinCode) {
       "potTotal"
     )
     
+}
+
+function findParticipantsByGroupJoinCode(joinCode) {
+
+  return db.select("participant.id", "users.fullName","users.profilePhoto","participant.venmoPhoto", "participant.paid")
+           .from("participant")
+           .innerJoin("users", "participant.partUserId", "=", "users.firebase_id")
+           .where({ groupId: joinCode})                    
 }

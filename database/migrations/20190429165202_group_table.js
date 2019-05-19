@@ -25,7 +25,7 @@ exports.up = function(knex, Promise) {
 
     groupTbl.date("startDate");
     groupTbl.date("endDate");
-    groupTbl.uuid("joinCode").defaultTo(uuidv4());
+    groupTbl.uuid("joinCode").defaultTo(uuidv4()).unique();
     groupTbl.text("groupMessage");
     groupTbl.decimal("potTotal");
     groupTbl.dropForeign("userId");

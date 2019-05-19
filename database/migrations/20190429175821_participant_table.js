@@ -2,10 +2,10 @@ exports.up = function(knex, Promise) {
   return knex.schema.createTable("participant", partcpntTbl => {
     partcpntTbl.increments();
     partcpntTbl
-      .integer("groupId")
+      .uuid("groupId")
       .unsigned()
       .notNullable()
-      .references("id")
+      .references("joinCode")
       .inTable("group")
       .onDelete("CASCADE")
       .onUpdate("CASCADE");
