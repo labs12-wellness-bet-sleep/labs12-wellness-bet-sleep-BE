@@ -86,3 +86,7 @@ function findGroupByJoinCode(joinCode) {
     )
     
 }
+
+function findParticipantByGroupfirebase(fireBaseId) {
+  return db('participant')
+}

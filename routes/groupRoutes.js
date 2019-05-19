@@ -32,6 +32,7 @@ groupsRouter.get("/:id", fb.isAuthenticated, async (req, res) => {
 groupsRouter.get('/join/:joinCode', fb.isAuthenticated, async (req, res) => {
   try {
     const matchingGroup = await Group.findGroupByJoinCode(req.params.joinCode);
+    // const participants = await 
     if(matchingGroup) {
       res.status(200).json(matchingGroup);
     } else {
@@ -65,7 +66,11 @@ groupsRouter.get('/join/:joinCode', fb.isAuthenticated, async (req, res) => {
 //  })
 // })
 
-groupsRouter.get("/:id/participant", async (req, res) => {
+const joinCode = uuidv4();
+//?joinCode=${joinCode}
+
+groupsRouter.get(`/:id/participant`, async (req, res) => {
+  
 
     try {   
            let {id} = req.params;
@@ -83,6 +88,26 @@ groupsRouter.get("/:id/participant", async (req, res) => {
 
     res.status(500).send(error.message);
   }
+});
+
+groupsRouter.get("/:id/participant/:joinLink", async (req, res) => {
+
+  try {   
+         let {id, joinLink} = req.params;
+         const group = await Group.findGroupById(id);
+         if(group) {
+         
+          const participant = await Group.findParticipantsByGroup(id)
+         
+          res.status(200).json({...group, participant});
+         } else {
+          res.status(400).json({message:`Group with id:${id} does not exist `})
+          }
+         
+  } catch (error) {
+
+  res.status(500).send(error.message);
+}
 });
 
 groupsRouter.post("/create", async (req, res) => {
