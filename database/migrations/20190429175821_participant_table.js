@@ -22,6 +22,7 @@ exports.up = function(knex, Promise) {
       .onUpdate("CASCADE");
     partcpntTbl.dropForeign("groupId");
     partcpntTbl.dropForeign("partUserId");
+    partcpntTbl.json("SleepData");
   });
 };
 
