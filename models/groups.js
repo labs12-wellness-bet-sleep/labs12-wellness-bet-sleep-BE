@@ -8,7 +8,8 @@ module.exports = {
   delGroup,
   findParticipantsByGroup,
   findGroupByJoinCode,
-  findParticipantsByGroupJoinCode
+  findParticipantsByGroupJoinCode,
+  findGroupsByFirebaseId
 };
 
 async function addGroup(group) {
@@ -85,8 +86,7 @@ function findGroupByJoinCode(joinCode) {
       "joinCode",
       "groupMessage",
       "potTotal"
-    )
-    
+    )    
 }
 
 function findParticipantsByGroupJoinCode(joinCode) {
@@ -95,4 +95,22 @@ function findParticipantsByGroupJoinCode(joinCode) {
            .from("participant")
            .innerJoin("users", "participant.partUserId", "=", "users.firebase_id")
            .where({ groupId: joinCode})                    
+};
+
+function findGroupsByFirebaseId(userfirebase_id) {
+  return db("group")
+    .where({ userfirebase_id: userfirebase_id })
+    .select(
+      "id",
+      "userId",
+      "userfirebase_id",
+      "groupName",
+      "buyInAmt",
+      "startDate",
+      "endDate",
+      "joinCode",
+      "groupMessage",
+      "potTotal"
+    )
+    .first();
 }
