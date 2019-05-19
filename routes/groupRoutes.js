@@ -128,8 +128,9 @@ groupsRouter.post("/invite", fb.isAuthenticated, async (req, res) => {
       .returning("id");
 
     if (group) {
+      console.log("We're checking if this is user firebase group ", group);
       const newGroup = await groupdb("group")
-        .where({ userfirebase_id: group })
+        .where({ id: group })
         .select(
           "id",
           "userId",
@@ -143,6 +144,8 @@ groupsRouter.post("/invite", fb.isAuthenticated, async (req, res) => {
           "potTotal"
         )
         .first();
+        console.log("Sending new group");
+        console.log("Our new group ", newGroup);
       res.status(200).json(newGroup);
     } else {
       res.status(401).json({ message: "All entries must be entered" });
