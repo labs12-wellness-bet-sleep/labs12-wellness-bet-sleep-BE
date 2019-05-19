@@ -27,6 +27,7 @@ function findGroup() {
   return db("group").select(
     "id",
     "groupName",
+    "userfirebase_id",
     "buyInAmt",
     "startDate",
     "endDate",
@@ -65,7 +66,7 @@ function findParticipantsByGroup(id) {
 
   return db.select("participant.id", "users.fullName","users.profilePhoto","participant.venmoPhoto", "participant.paid")
            .from("participant")
-           .innerJoin("users", "participant.partUserId", "=", "users.id")
+           .innerJoin("users", "participant.partUserId", "=", "users.firebase_id")
            .where({ groupId: id})                    
 }
 

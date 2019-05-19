@@ -29,7 +29,7 @@ groupsRouter.get("/:id", fb.isAuthenticated, async (req, res) => {
     res.status(500).send(error.message);
   }
 });
-groupsRouter.get('/join/:joinCode', async (req, res) => {
+groupsRouter.get('/join/:joinCode', fb.isAuthenticated, async (req, res) => {
   try {
     const matchingGroup = await Group.findGroupByJoinCode(req.params.joinCode);
     if(matchingGroup) {
@@ -126,13 +126,14 @@ groupsRouter.post("/invite", fb.isAuthenticated, async (req, res) => {
         }
       ])
       .returning("id");
+      console.log(group)
 
     if (group) {
       const newGroup = await groupdb("group")
-        .where({ userfirebase_id: group })
+        .where({ userfirebase_id: userfirebase_id })
         .select(
           "id",
-          "userId",
+          "userId",         
           "userfirebase_id",
           "groupName",
           "buyInAmt",
@@ -142,7 +143,8 @@ groupsRouter.post("/invite", fb.isAuthenticated, async (req, res) => {
           "groupMessage",
           "potTotal"
         )
-        .first();
+        // .first();
+        console.log(newGroup)
       res.status(200).json(newGroup);
     } else {
       res.status(401).json({ message: "All entries must be entered" });
