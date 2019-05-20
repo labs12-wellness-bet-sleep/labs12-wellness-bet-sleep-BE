@@ -42,13 +42,14 @@ function findById(firebase_id) {
       "firebase_id",
       "email",
       "role",
-      "fullName"
+      "fullName",
+      "SleepData"
     )
     .first();
 }
 
 function updateUser(id, changes) {
   return db("users")
-      .where({ id })
+      .where({firebase_id: id })
       .update(changes, '*');
 }
