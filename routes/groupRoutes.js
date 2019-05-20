@@ -146,7 +146,7 @@ groupsRouter.post("/invite", fb.isAuthenticated, async (req, res) => {
       groupMessage,
       userfirebase_id
     } = req.body;
-
+    console.log("req body:", userfirebase_id)
     const joinCode = uuidv4();
 
     const [group] = await groupdb("group")
@@ -196,6 +196,19 @@ groupsRouter.post("/invite", fb.isAuthenticated, async (req, res) => {
     }
   } catch (error) {
     res.status(500).send(error.message);
+  }
+});
+
+groupsRouter.put("/:id", fb.isAuthenticated, async (req, res) => {
+  try {
+    const [group] = await Group.updateGroup(req.params.id, req.body);
+    if (group) {
+      res.status(200).json(group);
+    } else {
+      res.status(404).json({ message: "Group is not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Error updating the group" });
   }
 });
 
