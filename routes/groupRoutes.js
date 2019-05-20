@@ -159,7 +159,7 @@ groupsRouter.post("/invite", fb.isAuthenticated, async (req, res) => {
 
 groupsRouter.put("/:id", fb.isAuthenticated, async (req, res) => {
   try {
-    const group = await Group.updateGroup(req.params.id, req.body);
+    const [group] = await Group.updateGroup(req.params.id, req.body);
     console.log("group:", group)
     if (group) {
       res.status(200).json(group);
