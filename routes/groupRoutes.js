@@ -146,6 +146,7 @@ groupsRouter.post("/invite", fb.isAuthenticated, async (req, res) => {
       groupMessage,
       userfirebase_id
     } = req.body;
+
     const joinCode = uuidv4();
 
     const [group] = await groupdb("group")
@@ -162,7 +163,9 @@ groupsRouter.post("/invite", fb.isAuthenticated, async (req, res) => {
         }
       ])
       .returning("id");
-      console.log("group:", group)
+      console.log(group);
+      // console.log(joinCode, 'Join code');
+
     if (group) {
       const newGroup = await groupdb("group")
         .where({ userfirebase_id: userfirebase_id })
@@ -179,6 +182,7 @@ groupsRouter.post("/invite", fb.isAuthenticated, async (req, res) => {
           "potTotal"
         )
         .first();
+        console.log(newGroup);
         await sendgrid.send({
           to: 'mssemmi8@gmail.com',
           from: 'wellnessbetsleep@gmail.com',
@@ -192,20 +196,6 @@ groupsRouter.post("/invite", fb.isAuthenticated, async (req, res) => {
     }
   } catch (error) {
     res.status(500).send(error.message);
-  }
-});
-
-groupsRouter.put("/:id", fb.isAuthenticated, async (req, res) => {
-  try {
-    const [group] = await Group.updateGroup(req.params.id, req.body);
-    console.log("group:", group)
-    if (group) {
-      res.status(200).json(group);
-    } else {
-      res.status(404).json({ message: "Group is not found" });
-    }
-  } catch (error) {
-    res.status(500).json({ message: "Error updating the group", error});
   }
 });
 
