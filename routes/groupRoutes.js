@@ -2,6 +2,7 @@ const groupsRouter = require("express").Router();
 const Group = require("../models/groups.js");
 const groupdb = require("../database/dbConfig.js");
 const Participant = require("../models/participants.js");
+const sendgrid = require('@sendgrid/mail');
 
 const uuidv4 = require("uuid/v4");
 
@@ -29,9 +30,24 @@ groupsRouter.get("/:id", fb.isAuthenticated, async (req, res) => {
     res.status(500).send(error.message);
   }
 });
-groupsRouter.get('/join/:joinCode', async (req, res) => {
+
+groupsRouter.get("/fb/:userfirebase_id", fb.isAuthenticated, async (req, res) => {
+  try {
+    const group = await Group.findGroupsByFirebaseId(req.params.userfirebase_id);
+    if (group) {
+      res.status(200).json(group);
+    } else {
+      res.status(404).json({ message: "No group by that firebase id" });
+    }
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+groupsRouter.get('/join/:joinCode', fb.isAuthenticated, async (req, res) => {
   try {
     const matchingGroup = await Group.findGroupByJoinCode(req.params.joinCode);
+    // const participants = await 
     if(matchingGroup) {
       res.status(200).json(matchingGroup);
     } else {
@@ -42,47 +58,66 @@ groupsRouter.get('/join/:joinCode', async (req, res) => {
   }
 });
 
-// groupsRouter.get('/:joinCode?', async (req, res) => {
-//   const joinCode = req.params.joinCode;
-//   try {
-//     const group = await groupdb('group').whereRaw('joinCode = ?', [joinCode]);
-//     if(group) {
-//       res.status(200).json(group);
-//     } else {
-//       res.status(404).json({ message: 'No group by that join code'});
-//     }
-    
-//   } catch (error) {
-//     res.status(500).json(error);
+
+// groupsRouter.get(`/:id/participant`, async (req, res) => {
+
+//     try {   
+//            let {id} = req.params;
+//            const group = await Group.findGroupById(id);
+//            if(group) {
+           
+//             const participant = await Group.findParticipantsByGroup(id)
+           
+//             res.status(200).json({...group, participant});
+//            } else {
+//             res.status(400).json({message:`Group with id:${id} does not exist `})
+//             }
+           
+//     } catch (error) {
+
+//     res.status(500).send(error.message);
 //   }
 // });
-// groupsRouter.get('/:joinCode?', async (req, res) => {
-//   const joinCode = req.params.joinCode;
-//  Group.findGroupByJoinCode().then(data => {
-//    res.status(200).json(data);
-//  }).catch(err => {
-//    res.status(500).json({ message: `failed to get groups by ${joinCode} with error: ${err}`});
-//  })
-// })
 
-groupsRouter.get("/:id/participant", async (req, res) => {
+groupsRouter.get("/:id/participant/:joinLink", async (req, res) => {
 
-    try {   
-           let {id} = req.params;
-           const group = await Group.findGroupById(id);
-           if(group) {
-           
-            const participant = await Group.findParticipantsByGroup(id)
-           
-            res.status(200).json({...group, participant});
-           } else {
-            res.status(400).json({message:`Group with id:${id} does not exist `})
-            }
-           
-    } catch (error) {
+  try {   
+         let {id, joinLink} = req.params;
+         const group = await Group.findGroupById(id);
+         if(group) {
+         
+          const participant = await Group.findParticipantsByGroup(id)
+         
+          res.status(200).json({...group, participant});
+         } else {
+          res.status(400).json({message:`Group with id:${id} does not exist `})
+          }
+         
+  } catch (error) {
 
-    res.status(500).send(error.message);
-  }
+  res.status(500).send(error.message);
+}
+});
+
+groupsRouter.get(`/:joinCode/participant`, fb.isAuthenticated, async (req, res) => {
+  
+
+  try {   
+         let {joinCode} = req.params;
+         const group = await Group.findGroupByJoinCode(joinCode);
+         if(group) {
+         
+          const participant = await Group.findParticipantsByGroupJoinCode(joinCode)
+         
+          res.status(200).json({...group, participant});
+         } else {
+          res.status(400).json({message:`Group with id:${id} does not exist `})
+          }
+         
+  } catch (error) {
+
+  res.status(500).send(error.message);
+}
 });
 
 groupsRouter.post("/create", async (req, res) => {
@@ -111,12 +146,14 @@ groupsRouter.post("/invite", fb.isAuthenticated, async (req, res) => {
       groupMessage,
       userfirebase_id
     } = req.body;
-    console.log(req.body)
+
+    const joinCode = uuidv4();
+
     const [group] = await groupdb("group")
       .insert([
         {
           userfirebase_id: userfirebase_id,
-          joinCode: uuidv4(),
+          joinCode: joinCode,
           
           // groupName: groupName,
           // buyInAmt: buyInAmt,
@@ -126,14 +163,16 @@ groupsRouter.post("/invite", fb.isAuthenticated, async (req, res) => {
         }
       ])
       .returning("id");
+      console.log(group);
+      // console.log(joinCode, 'Join code');
 
     console.log(group)
     if (group) {
       const newGroup = await groupdb("group")
-        .where({userfirebase_id: userfirebase_id})
+        .where({ userfirebase_id: userfirebase_id })
         .select(
           "id",
-          "userId",
+          "userId",         
           "userfirebase_id",
           "groupName",
           "buyInAmt",
@@ -144,11 +183,15 @@ groupsRouter.post("/invite", fb.isAuthenticated, async (req, res) => {
           "potTotal"
         )
         .first();
-        console.log(newGroup)
-      res.status(200).json({
-        newGroup,
-        message: 'success!'
-      });
+        console.log(newGroup);
+        await sendgrid.send({
+          to: 'mssemmi8@gmail.com',
+          from: 'wellnessbetsleep@gmail.com',
+          subject: 'Join Code',
+          text: joinCode,
+          // html:`<a href='/dashboard/'>Link To Your Group</a>`
+      })
+      res.status(200).json({newGroup});
     } else {
       res.status(401).json({ message: "All entries must be entered" });
     }
