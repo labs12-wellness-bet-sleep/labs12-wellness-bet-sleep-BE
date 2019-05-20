@@ -9,7 +9,7 @@ module.exports = {
 //https://firebase.google.com/docs/auth/admin/verify-id-tokens
 function isAuthenticated(req, res, next) {
     const authHeader = req.headers.authorization;
-    // console.log("authheader", authHeader);
+    console.log("authheader:", authHeader);
 
     if(!authHeader) {
         return res.status(403).json({
@@ -25,7 +25,7 @@ function isAuthenticated(req, res, next) {
             next();
         })
         .catch(function(error){
-            console.log(error);
+            console.log('err', error);
             return res.status(500).json({
                 status: 500,
                 message: "This token is incorrect"

@@ -111,7 +111,7 @@ groupsRouter.post("/invite", fb.isAuthenticated, async (req, res) => {
       groupMessage,
       userfirebase_id
     } = req.body;
-
+    console.log(req.body)
     const [group] = await groupdb("group")
       .insert([
         {
@@ -127,9 +127,10 @@ groupsRouter.post("/invite", fb.isAuthenticated, async (req, res) => {
       ])
       .returning("id");
 
+    console.log(group)
     if (group) {
       const newGroup = await groupdb("group")
-        .where({ userfirebase_id: group })
+        .where({userfirebase_id: userfirebase_id})
         .select(
           "id",
           "userId",
@@ -143,7 +144,11 @@ groupsRouter.post("/invite", fb.isAuthenticated, async (req, res) => {
           "potTotal"
         )
         .first();
-      res.status(200).json(newGroup);
+        console.log(newGroup)
+      res.status(200).json({
+        newGroup,
+        message: 'success!'
+      });
     } else {
       res.status(401).json({ message: "All entries must be entered" });
     }
@@ -155,13 +160,14 @@ groupsRouter.post("/invite", fb.isAuthenticated, async (req, res) => {
 groupsRouter.put("/:id", fb.isAuthenticated, async (req, res) => {
   try {
     const group = await Group.updateGroup(req.params.id, req.body);
+    console.log("group:", group)
     if (group) {
       res.status(200).json(group);
     } else {
       res.status(404).json({ message: "Group is not found" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Error updating the group" });
+    res.status(500).json({ message: "Error updating the group", error});
   }
 });
 
