@@ -146,7 +146,6 @@ groupsRouter.post("/invite", fb.isAuthenticated, async (req, res) => {
       groupMessage,
       userfirebase_id
     } = req.body;
-
     const joinCode = uuidv4();
 
     const [group] = await groupdb("group")
@@ -163,10 +162,7 @@ groupsRouter.post("/invite", fb.isAuthenticated, async (req, res) => {
         }
       ])
       .returning("id");
-      console.log(group);
-      // console.log(joinCode, 'Join code');
-
-    console.log(group)
+      console.log("group:", group)
     if (group) {
       const newGroup = await groupdb("group")
         .where({ userfirebase_id: userfirebase_id })
@@ -183,7 +179,6 @@ groupsRouter.post("/invite", fb.isAuthenticated, async (req, res) => {
           "potTotal"
         )
         .first();
-        console.log(newGroup);
         await sendgrid.send({
           to: 'mssemmi8@gmail.com',
           from: 'wellnessbetsleep@gmail.com',
