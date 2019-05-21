@@ -2,8 +2,9 @@ const participantRouter = require("express").Router();
 const userdb = require("../database/dbConfig.js");
 const Participant = require("../models/participants.js");
 const Groups = require("../models/groups.js");
+const fb = require("../middleware/firebase.js");
 
-participantRouter.get("/", (req, res) => {
+participantRouter.get("/", fb.isAuthenticated, (req, res) => {
   Participant.findParticipant()
     .then(participant => {
       res.status(200).json(participant);
@@ -14,7 +15,7 @@ participantRouter.get("/", (req, res) => {
 });
 
 
-participantRouter.get("/:id", async (req, res) => {
+participantRouter.get("/:id", fb.isAuthenticated,  async (req, res) => {
     try {
         const {id} = req.params;
         if(id){
@@ -50,7 +51,7 @@ participantRouter.get("/:id/groups", async (req, res) => {
 });
 
 
-participantRouter.put("/:id", async (req, res) => {
+participantRouter.put("/:id", fb.isAuthenticated, async (req, res) => {
   try {
       const participant = await Participant.updateParticipant(req.params.id, req.body);
       if(participant){
@@ -63,17 +64,20 @@ participantRouter.put("/:id", async (req, res) => {
   }
 });
 
-participantRouter.post("/add", async (req, res) => {
+participantRouter.post("/add", fb.isAuthenticated, async (req, res) => {
   try {
     const newParticipant = req.body;
     // console.log(newParticipant)
     if (newParticipant) {
       const participant = await Participant.addParticipant(newParticipant);
+      console.log(participant, 'add participant')
       res.status(200).json(participant);
+
     } else {
       res.status(400).json({ message: "Must enter all input fields" });
     }
   } catch (error) {
+    console.log(error)
     res.status(500).send(error.message);
   }
 });
