@@ -35,16 +35,16 @@ function find() {
 function findById(firebase_id) {
   return db("users")
     .where({ 'firebase_id': firebase_id })
-    .select(
-      "id",
-      "password",
-      "profilePhoto",
-      "firebase_id",
-      "email",
-      "role",
-      "fullName",
-      "SleepData"
-    )
+    // .select(
+    //   "id",
+    //   "password",
+    //   "profilePhoto",
+    //   "firebase_id",
+    //   "email",
+    //   "role",
+    //   "fullName",
+    //   "SleepData"
+    // )
     .first();
 }
 
