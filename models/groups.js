@@ -74,19 +74,20 @@ function findParticipantsByGroup(id) {
 }
 
 function findGroupByJoinCode(joinCode) {
+  console.log(joinCode, 'findGroupByJoinCode');
   return db("group")
-    .where({ joinCode })
-    .select(
-      "id",
-      "userId",
-      "groupName",
-      "buyInAmt",
-      "startDate",
-      "endDate",
-      "joinCode",
-      "groupMessage",
-      "potTotal"
-    )    
+    .where({ joinCode }).first()
+    // .select(
+    //   "id",
+    //   "userId",
+    //   "groupName",
+    //   "buyInAmt",
+    //   "startDate",
+    //   "endDate",
+    //   "joinCode",
+    //   "groupMessage",
+    //   "potTotal"
+    // )    
 }
 
 function findParticipantsByGroupJoinCode(joinCode) {

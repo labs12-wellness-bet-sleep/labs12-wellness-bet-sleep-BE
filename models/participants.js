@@ -1,4 +1,5 @@
 const db = require("../database/dbConfig.js");
+const {findGroupByJoinCode} = require('./groups.js');
 
 module.exports = {
   participantByiD,
@@ -13,23 +14,32 @@ async function addParticipant(participant) {
   const [id] = await db("participant")
     .insert(participant)
     .returning("id");
-  return participantByiD(id);
+  const participantObj = await participantByiD(id);
+  console.log(participantObj, 'participantObj')
+  const group = await findGroupByJoinCode(participantObj.groupId);
+  console.log(group);
+  return group;
 }
 
+// async function findParticipant() {
+//  const result = await db("participant")
+//     .select(
+//       "participant.id",
+//       "users.fullName",
+//       "participant.venmoPhoto",
+//       "participant.groupId"
+//     )
+//     .innerJoin("users", "participant.partUserId", "=", "users.firebase_id");
+//     console.log(result);
+// }
+
 function findParticipant() {
-  return db("participant")
-    .select(
-      "participant.id",
-      "users.fullName",
-      "participant.venmoPhoto",
-      "participant.groupId"
-    )
-    .innerJoin("users", "participant.partUserId", "=", "users.firebase_id");
+  return db('participant');
 }
 
 function participantByiD(firebase_id) {
   return db("participant")
-    .where({ partUserId: firebase_id })
+    .where({ id: firebase_id })
     .select(
       "participant.id",
       "venmoPhoto",
