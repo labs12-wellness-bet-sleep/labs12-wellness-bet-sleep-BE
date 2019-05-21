@@ -1,5 +1,5 @@
 const db = require("../database/dbConfig.js");
-const {findGroupByJoinCode} = require('./groups.js');
+const { findGroupByJoinCode } = require("./groups.js");
 
 module.exports = {
   participantByiD,
@@ -15,7 +15,7 @@ async function addParticipant(participant) {
     .insert(participant)
     .returning("id");
   const participantObj = await participantByiD(id);
-  console.log(participantObj, 'participantObj')
+  console.log(participantObj, "participantObj");
   const group = await findGroupByJoinCode(participantObj.groupId);
   console.log(group);
   return group;
@@ -34,7 +34,7 @@ async function addParticipant(participant) {
 // }
 
 function findParticipant() {
-  return db('participant');
+  return db("participant");
 }
 
 function participantByiD(firebase_id) {
@@ -62,19 +62,40 @@ function delParticipant(id) {
     .del();
 }
 
-function showGroupsforParticipant(id) {
-  return db
-    .select(
-      "group.id",
-      "group.userId",
-      "group.groupName",
-      "group.buyInAmt",
-      "group.startDate",
-      "group.endDate",
-      "group.groupMessage",
-      "group.potTotal"
-    )
-    .from("group")
-    .innerJoin("participant", "participant.groupId", "=", "group.id")
-    .where({ "participant.id": id });
+// function showGroupsforParticipant(id) {
+//   return db
+//     .select(
+//       "group.id",
+//       "group.userId",
+//       "group.groupName",
+//       "group.buyInAmt",
+//       "group.startDate",
+//       "group.endDate",
+//       "group.groupMessage",
+//       "group.potTotal"
+//     )
+//     .from("group")
+//     .innerJoin("participant", "participant.groupId", "=", "group.id")
+//     .where({ "participant.id": id });
+// }
+
+function showGroupsforParticipant(userId) {
+  // return db
+  //   .select(
+  //     "group.id",
+  //     "group.userId",
+  //     "group.groupName",
+  //     "group.buyInAmt",
+  //     "group.startDate",
+  //     "group.endDate",
+  //     "group.groupMessage",
+  //     "group.potTotal"
+  //   )
+  //   .from("group")
+  //   .innerJoin("participant", "participant.groupId", "=", "group.joinCode")
+  //   .where({ "participant.groupId": joinCode });
+  return db("users as u")
+    .where({ "u.firebase_id": userId })
+    .join("participant as p", { "u.firebase_id": "p.partUserId" })
+    .join("group as g", { "p.groupId": "g.joinCode" });
 }

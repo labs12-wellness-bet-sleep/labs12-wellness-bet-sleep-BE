@@ -34,12 +34,12 @@ participantRouter.get("/:id/groups", async (req, res) => {
             const {id} = req.params;
             if(id){
                 console.log("id", id)
-               const participant = await Participant.participantByiD(id);
-               
+              //  const participant = await Participant.participantByiD(id);
+            //    console.log("groups", groups)
                const groups = await Participant.showGroupsforParticipant(id)
-               console.log("groups", groups)
-               console.log("participant", participant)
-               res.status(200).json({...participant, groups});
+               console.log("participant", groups)
+              //  res.status(200).json({...participant, groups});
+              res.status(200).json({ groups});
             } else {
                 res.status(400).json({message:`Group with id:${id} does not exist `})
             }

@@ -3,6 +3,7 @@ const userdb = require("../database/dbConfig.js");
 const Users = require("../models/users.js");
 
 const Groups = require('../models/groups.js');
+const Participant = require('../models/participants.js');
 
 const fb = require("../middleware/firebase.js");
 // fb.isAuthenticated
@@ -23,11 +24,13 @@ usersRouter.get("/:id", fb.isAuthenticated, async (req, res) => {
     console.log('hello')
     const user = await Users.findById(req.params.id);
     console.log(user, 'user by id')
+    const userGroups = await Participant.showGroupsforParticipant(user.firebase_id)
     if (user) {
       res.status(200).json({
         error: false,
         message: "Your profile was retrieved successfully.",
-        user
+        user,
+        groups: userGroups
       });
     } else {
       res.status(404).json({
