@@ -146,6 +146,7 @@ groupsRouter.post("/invite", fb.isAuthenticated, async (req, res) => {
       groupMessage,
       userfirebase_id
     } = req.body;
+
     console.log('req body', req.body);
 
     const joinCode = uuidv4();

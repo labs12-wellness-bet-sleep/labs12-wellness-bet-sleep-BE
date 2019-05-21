@@ -35,8 +35,9 @@ participantRouter.get("/:id/groups", async (req, res) => {
             if(id){
                 console.log("id", id)
                const participant = await Participant.participantByiD(id);
-            //    console.log("groups", groups)
+               
                const groups = await Participant.showGroupsforParticipant(id)
+               console.log("groups", groups)
                console.log("participant", participant)
                res.status(200).json({...participant, groups});
             } else {
