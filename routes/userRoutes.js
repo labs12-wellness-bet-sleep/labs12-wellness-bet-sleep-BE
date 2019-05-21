@@ -21,6 +21,7 @@ usersRouter.get("/", fb.isAuthenticated, (req, res) => {
 usersRouter.get("/:id", fb.isAuthenticated, async (req, res) => {
   console.log('user id')
   try {
+    console.log('hello')
     const user = await Users.findById(req.params.id);
     console.log(user, 'user by id')
     const userGroups = await Participant.showGroupsforParticipant(user.firebase_id)
