@@ -52,7 +52,7 @@ function participantByiD(firebase_id) {
 
 function updateParticipant(id, changes) {
   return db("participant")
-    .where({ id })
+    .where({partUserId: id })
     .update(changes, "*");
 }
 
